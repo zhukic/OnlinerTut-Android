@@ -29,13 +29,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rus.tutby.MyApplication;
 import rus.tutby.R;
+import rus.tutby.parser.htmlparser.HtmlParser;
 import rus.tutby.parser.htmlparser.OnlinerHtmlParser;
 import rus.tutby.parser.htmlparser.TutHtmlParser;
 import rus.tutby.utils.DateTimeFormatter;
 import rus.tutby.news.News;
 import rus.tutby.utils.MyDisplayMetrics;
 
-public class NewsActivity extends AppCompatActivity implements View.OnClickListener {
+public class NewsActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
 
@@ -131,22 +132,6 @@ public class NewsActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
-    }
-
-    @Override
-    public void onClick(View v) {
-        /*try {
-            if(news.isFavorite()) {
-                news.setFavorite(false);
-                floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-            } else {
-                news.setFavorite(true);
-                floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.red)));
-            }
-            DatabaseManager.update(news);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
     }
 
     class ParseHTMLTask extends AsyncTask<Void, Void, Document> {
