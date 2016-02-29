@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">OnlinerTUT</string>
+
+    <string name="hello_world">Hello world!</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_news">NewsActivity</string>
+
+    <string-array name="providers">
+        <item>TUT</item>
+        <item>Onliner</item>
+    </string-array>
+
+    <string name="tut">TUT.BY</string>
+
+    <string name="onliner">Onliner.by</string>
+
+    <string name="drawer_open">drawer open</string>
+
+    <string name="drawer_close">drawer close</string>
+
+    <string-array name="tut_categories">
+        <item>Главное</item>
+        <item>Последние</item>
+        <item>Политика</item>
+        <item>Экономика</item>
+        <item>Финансы</item>
+        <item>Общество</item>
+        <item>В мире</item>
+        <item>Спорт</item>
+        <item>42</item>
+        <item>Авто</item>
+    </string-array>
+
+    <string-array name="tut_urls">
+        <item>http://news.tut.by/rss/index.rss</item>
+        <item>http://news.tut.by/rss/all.rss</item>
+        <item>http://news.tut.by/rss/politics.rss</item>
+        <item>http://news.tut.by/rss/economics.rss</item>
+        <item>http://news.tut.by/rss/finance.rss</item>
+        <item>http://news.tut.by/rss/society.rss</item>
+        <item>http://news.tut.by/rss/world.rss</item>
+        <item>http://news.tut.by/rss/sport.rss</item>
+        <item>http://news.tut.by/rss/it.rss</item>
+        <item>http://news.tut.by/rss/auto.rss</item>
+    </string-array>
+
+    <string-array name="onliner_categories">
+        <item>Главное</item>
+        <item>Люди</item>
+        <item>Авто</item>
+        <item>Технологии</item>
+        <item>Недвижимость</item>
+    </string-array>
+
+    <string-array name="onliner_urls">
+        <item>https://www.onliner.by/feed</item>
+        <item>https://people.onliner.by/feed</item>
+        <item>https://auto.onliner.by/feed</item>
+        <item>https://tech.onliner.by/feed</item>
+        <item>https://realt.onliner.by/feed</item>
+    </string-array>
+
+</resources>
