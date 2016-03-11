@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import rus.tutby.MyApplication;
-import rus.tutby.news.News;
+import rus.tutby.mvp.model.News;
 import rus.tutby.provider.Provider;
 
 public class DatabaseManager {

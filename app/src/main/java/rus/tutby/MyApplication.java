@@ -9,11 +9,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.util.HashMap;
-
 import rus.tutby.database.DatabaseHelper;
-import rus.tutby.database.DatabaseManager;
-import rus.tutby.news.News;
+import rus.tutby.mvp.model.News;
 import rus.tutby.provider.Provider;
 
 public class MyApplication extends Application {

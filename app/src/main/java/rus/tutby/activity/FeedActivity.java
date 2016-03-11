@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import butterknife.Bind;
@@ -143,7 +144,6 @@ public class FeedActivity extends AppCompatActivity {
         }
     }
 
-
     private String getActivityTitle() {
         switch (MyApplication.getProvider()) {
             case TUT:
@@ -155,7 +155,6 @@ public class FeedActivity extends AppCompatActivity {
         }
     }
 
-
     private String[] getProviderCategories() {
         switch (MyApplication.getProvider()) {
             case TUT:
@@ -165,7 +164,6 @@ public class FeedActivity extends AppCompatActivity {
         }
         return null;
     }
-
 
     private String[] getProviderUrls() {
         switch (MyApplication.getProvider()) {

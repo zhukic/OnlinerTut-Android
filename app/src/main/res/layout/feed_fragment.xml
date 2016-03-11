@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/swipeRefreshLayout">
+        android:layout_height="0dp"
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_weight="1">
 
         <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:id="@+id/listView"
             android:scrollbars="vertical"
             android:divider="@color/divider_color"
@@ -21,8 +23,8 @@
     <ProgressBar
         style="?android:progressBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:id="@+id/lowProgressBar"
-        android:layout_below="@id/swipeRefreshLayout" />
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/lowProgressBar" />
 
-</RelativeLayout>
+</LinearLayout>

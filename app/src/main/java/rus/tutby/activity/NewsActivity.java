@@ -33,7 +33,7 @@ import rus.tutby.parser.htmlparser.HtmlParser;
 import rus.tutby.parser.htmlparser.OnlinerHtmlParser;
 import rus.tutby.parser.htmlparser.TutHtmlParser;
 import rus.tutby.utils.DateTimeFormatter;
-import rus.tutby.news.News;
+import rus.tutby.mvp.model.News;
 import rus.tutby.utils.MyDisplayMetrics;
 
 public class NewsActivity extends AppCompatActivity {

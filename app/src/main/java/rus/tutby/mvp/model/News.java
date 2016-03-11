@@ -1,4 +1,4 @@
-package rus.tutby.news;
+package rus.tutby.mvp.model;
 
 import android.graphics.Bitmap;
 
@@ -10,8 +10,7 @@ import java.io.Serializable;
 import rus.tutby.provider.Provider;
 
 @DatabaseTable(tableName = "news")
-public class News
-{
+public class News {
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField

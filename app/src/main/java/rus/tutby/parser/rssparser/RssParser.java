@@ -12,15 +12,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.Locale;
 
 import rus.tutby.exception.NoInternetException;
-import rus.tutby.news.News;
+import rus.tutby.mvp.model.News;
 import rus.tutby.provider.Provider;
 
 public class RssParser {

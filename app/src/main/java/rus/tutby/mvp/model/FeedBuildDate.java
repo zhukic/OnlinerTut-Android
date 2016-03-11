@@ -1,4 +1,4 @@
-package rus.tutby.news;
+package rus.tutby.mvp.model;
 
 
 import rus.tutby.MyApplication;

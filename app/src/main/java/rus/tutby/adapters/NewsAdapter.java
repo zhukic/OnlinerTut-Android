@@ -19,7 +19,7 @@ import java.util.List;
 import rus.tutby.MyApplication;
 import rus.tutby.R;
 import rus.tutby.utils.DateTimeFormatter;
-import rus.tutby.news.News;
+import rus.tutby.mvp.model.News;
 
 
 public class NewsAdapter extends ArrayAdapter<News> {

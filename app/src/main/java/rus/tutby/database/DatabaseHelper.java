@@ -10,7 +10,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import rus.tutby.news.News;
+import rus.tutby.mvp.model.News;
 
 /**
  * Database helper class used to manage the creation and upgrading of your database. This class also usually provides
