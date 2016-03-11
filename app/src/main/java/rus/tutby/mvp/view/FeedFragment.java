@@ -57,10 +57,10 @@ public class FeedFragment extends Fragment implements FeedView,
 
         newsAdapter = new NewsAdapter(getActivity().getApplicationContext(), null);
 
-        feedPresenter = new FeedPresenterImpl(
-                this,
-                getArguments().getString("URL"),
-                getArguments().getString("CATEGORY"));
+        final String url = getArguments().getString("URL");
+        final String category = getArguments().getString("CATEGORY");
+
+        feedPresenter = new FeedPresenterImpl(this, url, category);
 
         return rootView;
     }
@@ -168,5 +168,11 @@ public class FeedFragment extends Fragment implements FeedView,
     @Override
     public void onRefresh() {
         feedPresenter.parse();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        feedPresenter.onDestroy();
     }
 }
