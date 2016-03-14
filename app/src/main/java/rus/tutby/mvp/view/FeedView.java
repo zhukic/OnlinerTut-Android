@@ -17,10 +17,12 @@ public interface FeedView {
 
     void hideLowProgress();
 
-    void setItems(List<News> items);
+    void setFeed(List<News> feed);
 
     void notifyAdapter();
 
     void onError(String message);
+
+    void openNews(int newsID);
 
 }

@@ -1,6 +1,7 @@
 package rus.tutby.mvp.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ import rus.tutby.R;
 import rus.tutby.mvp.presenter.FeedPresenter;
 import rus.tutby.mvp.presenter.FeedPresenterImpl;
 import rus.tutby.mvp.model.News;
+import rus.tutby.utils.Internet;
 
 public class FeedFragment extends Fragment implements FeedView,
         AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -42,8 +45,6 @@ public class FeedFragment extends Fragment implements FeedView,
 
         View rootView = inflater.inflate(R.layout.feed_fragment, container, false);
         ButterKnife.bind(this, rootView);
-
-        initListView();
 
         swipeRefreshLayout.setOnRefreshListener(this);
         listView.setOnItemClickListener(this);
@@ -65,50 +66,15 @@ public class FeedFragment extends Fragment implements FeedView,
         return rootView;
     }
 
-    private void initListView() {
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                News news = (News)parent.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity().getApplicationContext(), NewsActivity.class);
-                intent.putExtra("ID", news.getId());
-                startActivity(intent);
-            }
-        });
+    @Override
+    public void onResume() {
+        super.onResume();
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            private int previousItemCount = 0;
-            private boolean loading = true;
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                if(loading) {
-                    if(totalItemCount > previousItemCount) {
-                        loading = false;
-                        previousItemCount = totalItemCount;
-                    }
-                }
-
-                if(firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0 && !loading) {
-                    Log.d(TAG, "scroll");
-                    //UploadFeedTask uploadFeedTask = new UploadFeedTask();
-                    //uploadFeedTask.execute();
-                    loading = true;
-                    //readRssTask.execute();
-                }
-            }
-        });
+        feedPresenter.parse(Internet.hasNet(getContext()));
     }
 
     @Override
     public void showRefresh() {
-
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -133,7 +99,7 @@ public class FeedFragment extends Fragment implements FeedView,
     }
 
     @Override
-    public void setItems(List<News> items) {
+    public void setFeed(List<News> items) {
         listView.setAdapter(new NewsAdapter(getActivity().getApplicationContext(), items));
     }
 
@@ -144,30 +110,41 @@ public class FeedFragment extends Fragment implements FeedView,
 
     @Override
     public void onError(String message) {
-        Snackbar snackbar = Snackbar.make(listView, "No internet connection!",
-                Snackbar.LENGTH_LONG)
-                .setAction("RETRY", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        feedPresenter.parse();
-                    }
-                });
         if(isAdded()) {
+            Snackbar snackbar = Snackbar.make(listView, "",
+                    Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onRefresh();
+                        }
+                    });
+            snackbar.setActionTextColor(Color.RED);
+            snackbar.setText(message);
+
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.YELLOW);
+
             snackbar.show();
         }
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        News news = feedPresenter.getNewsAtPosition(position);
+    public void openNews(int newsID) {
         Intent intent = new Intent(getActivity().getApplicationContext(), NewsActivity.class);
-        intent.putExtra("ID", news.getId());
+        intent.putExtra("ID", newsID);
         startActivity(intent);
     }
 
     @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        feedPresenter.onNewsClicked(position);
+    }
+
+    @Override
     public void onRefresh() {
-        feedPresenter.parse();
+        feedPresenter.parse(Internet.hasNet(getContext()));
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import rus.tutby.database.DatabaseHelper;
+import rus.tutby.database.DatabaseManager;
 import rus.tutby.mvp.model.News;
 import rus.tutby.provider.Provider;
 
@@ -24,7 +25,6 @@ public class MyApplication extends Application {
     private static DisplayImageOptions displayImageOptions;
 
     private static Provider provider;
-
 
     @Override
     public void onCreate() {
@@ -54,6 +54,8 @@ public class MyApplication extends Application {
                 .build();
 
         imageLoader.init(config);
+
+        //DatabaseManager.clearTable();
 
         provider = Provider.TUT;
     }

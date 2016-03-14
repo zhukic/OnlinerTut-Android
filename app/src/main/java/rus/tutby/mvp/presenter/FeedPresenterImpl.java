@@ -1,95 +1,85 @@
 package rus.tutby.mvp.presenter;
 
-import android.os.AsyncTask;
+import android.util.Log;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import rus.tutby.MyApplication;
 import rus.tutby.database.DatabaseManager;
-import rus.tutby.exception.NoInternetException;
-import rus.tutby.mvp.model.FeedBuildDate;
 import rus.tutby.mvp.model.News;
 import rus.tutby.mvp.view.FeedView;
-import rus.tutby.parser.rssparser.RssParser;
 
 /**
  * Created by RUS on 11.03.2016.
  */
-public class FeedPresenterImpl implements FeedPresenter, OnFinishedListener {
+public class FeedPresenterImpl implements FeedPresenter, ParseListener {
+
+    private static final String TAG = "TAG";
 
     private FeedView feedView;
 
     private String url;
     private String category;
 
-    private LinkedList<News> newsList;
+    private List<News> newsToShow;
+
+    private Feed feed;
 
     public FeedPresenterImpl(FeedView feedView, String url, String category) {
         this.feedView = feedView;
         this.url = url;
         this.category = category;
 
-        newsList = new LinkedList<>();
-
-        parse();
+        feed = new Feed();
     }
 
     @Override
-    public void parse() {
-        ReadRssTask readRssTask = new ReadRssTask(this, newsList);
-        readRssTask.execute(url, category);
-    }
+    public void parse(boolean hasInternet) {
 
-    @Override
-    public void onParseStarted() {
+        Log.i(TAG, "parse " + category);
+
         if(feedView != null) {
-            feedView.showRefresh();
+            if(hasInternet) {
+                feedView.showRefresh();
+
+                ReadRssTask readRssTask = new ReadRssTask(this, feed);
+                readRssTask.execute(url, category);
+            } else {
+                feedView.onError("No internet connection!");
+                //onParseFinished();
+            }
         }
     }
 
     @Override
-    public void onParseFinished(List<News> list) {
+    public void onFeedParsed(Feed newFeed) {
 
-        newsList = (LinkedList<News>) list;
+        Log.i(TAG, "onFeedParsed " + category);
 
+        if(newFeed != null) {
+            this.feed = newFeed;
+        }
         if(feedView != null) {
             feedView.hideRefresh();
-            feedView.setItems(newsList);
+            Log.i(TAG, String.valueOf(feed.getNewsList().size()));
+            feedView.setFeed(feed.getNewsList());
         }
-
-    }
-
-    @Override
-    public void onResume() {
-
     }
 
     @Override
     public void upload() {
-        UploadFeedTask uploadFeedTask = new UploadFeedTask(this, newsList);
-        uploadFeedTask.execute();
-    }
 
-    @Override
-    public void onUploadStarted() {
+        Log.i(TAG, "upload " + category);
+
         feedView.showLowProgress();
-    }
 
-    @Override
-    public void onUploadFinished() {
-        if(feedView != null) {
-            feedView.notifyAdapter();
-            feedView.hideLowProgress();
-        }
 
-    }
+        feedView.notifyAdapter();
+        feedView.hideLowProgress();
 
-    @Override
-    public News getNewsAtPosition(int position) {
-        return newsList.get(position);
+
     }
 
     @Override
@@ -98,7 +88,7 @@ public class FeedPresenterImpl implements FeedPresenter, OnFinishedListener {
     }
 
     @Override
-    public void onFinished(List<News> list) {
-
+    public void onNewsClicked(int position) {
+        feedView.openNews(feed.getNews(position).getId());
     }
 }

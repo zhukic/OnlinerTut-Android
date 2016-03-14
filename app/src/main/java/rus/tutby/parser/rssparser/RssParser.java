@@ -41,7 +41,7 @@ public class RssParser {
     private JSONObject jsonObject;
     private int size;
 
-    public RssParser(String url, Provider provider) throws NoInternetException {
+    public RssParser(String url, Provider provider) {
         this.provider = provider;
         try {
             //Log.d(Constants.TAG, url);
@@ -57,7 +57,7 @@ public class RssParser {
         } catch (JSONException e) {
             Log.d(TAG_LOG, "JSONException : " + e.getMessage());
         } catch (IOException e) {
-            throw new NoInternetException(e.getMessage());
+            Log.d(TAG_LOG, "IOException : " + e.getMessage());
         } catch (NullPointerException e) {
             Log.d(TAG_LOG, "NullPointerException");
         } catch (ParseException e) {

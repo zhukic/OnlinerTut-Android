@@ -9,21 +9,11 @@ import rus.tutby.mvp.model.News;
  */
 public interface FeedPresenter {
 
-    void parse();
-
-    void onParseStarted();
-
-    void onParseFinished(List<News> list);
-
-    void onResume();
+    void parse(boolean hasInternet);
 
     void upload();
 
-    void onUploadStarted();
-
-    void onUploadFinished();
-
     void onDestroy();
 
-    News getNewsAtPosition(int position);
+    void onNewsClicked(int position);
 }
