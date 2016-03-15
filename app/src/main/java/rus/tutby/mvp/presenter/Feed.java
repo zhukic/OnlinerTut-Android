@@ -14,16 +14,13 @@ import rus.tutby.provider.Provider;
  */
 public class Feed {
 
-    private String lastBuildDate;
-
     private ArrayList<News> feed;
+
+    private ArrayList<News> feedToShow;
 
     public Feed() {
         feed = new ArrayList<>();
-    }
-
-    public void addNews(News news) {
-        feed.add(news);
+        feedToShow = new ArrayList<>();
     }
 
     private News getEqualNews(News news) {
@@ -32,6 +29,10 @@ public class Feed {
                 return i;
         }
         return null;
+    }
+
+    public int getSize() {
+        return feed.size();
     }
 
     public void addOrUpdate(News news) throws SQLException {
@@ -50,18 +51,6 @@ public class Feed {
         }
     }
 
-    public int size() {
-        return size();
-    }
-
-    public String getLastBuildDate() {
-        return lastBuildDate;
-    }
-
-    public void setLastBuildDate(String lastBuildDate) {
-        this.lastBuildDate = lastBuildDate;
-    }
-
     public News getNews(int position) {
         return feed.get(position);
     }
@@ -70,7 +59,19 @@ public class Feed {
         this.feed = newsList;
     }
 
-    public ArrayList<News> getNewsList() {
-        return feed;
+    public ArrayList<News> uploadFeedToShow() {
+        final int size = feedToShow.size();
+        for(int i = size; i < size + 20; i++) {
+            if(i != feed.size()) {
+                feedToShow.add(feed.get(i));
+            } else break;
+        }
+        return feedToShow;
+    }
+
+    public ArrayList<News> getFeedToShow() {
+        feedToShow = new ArrayList<>(feed.subList(0, 20));
+
+        return feedToShow;
     }
 }

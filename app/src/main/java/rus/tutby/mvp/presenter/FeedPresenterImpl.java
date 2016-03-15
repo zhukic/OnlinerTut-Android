@@ -23,8 +23,6 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
     private String url;
     private String category;
 
-    private List<News> newsToShow;
-
     private Feed feed;
 
     public FeedPresenterImpl(FeedView feedView, String url, String category) {
@@ -63,8 +61,7 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
         }
         if(feedView != null) {
             feedView.hideRefresh();
-            Log.i(TAG, String.valueOf(feed.getNewsList().size()));
-            feedView.setFeed(feed.getNewsList());
+            feedView.setFeed(feed.getFeedToShow());
         }
     }
 
@@ -73,13 +70,15 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
 
         Log.i(TAG, "upload " + category);
 
-        feedView.showLowProgress();
+        if(feedView != null) {
 
+            feedView.showLowProgress();
 
-        feedView.notifyAdapter();
-        feedView.hideLowProgress();
+            feed.uploadFeedToShow();
 
-
+            feedView.notifyAdapter();
+            feedView.hideLowProgress();
+        }
     }
 
     @Override
