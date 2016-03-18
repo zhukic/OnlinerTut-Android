@@ -1,6 +1,7 @@
-package rus.tutby.mvp.presenter;
+package rus.tutby.mvp.feed.presenter;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.sql.SQLException;
 
@@ -9,6 +10,7 @@ import rus.tutby.database.DatabaseManager;
 import rus.tutby.mvp.model.FeedBuildDate;
 import rus.tutby.mvp.model.News;
 import rus.tutby.parser.rssparser.RssParser;
+import rus.tutby.utils.Time;
 
 /**
  * Created by RUS on 11.03.2016.
@@ -29,7 +31,6 @@ public class ReadRssTask extends AsyncTask<String, Void, Feed> {
 
     @Override
     protected Feed doInBackground(String... params) {
-        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 
         final String url = params[0];
         final String category = params[1];
@@ -38,18 +39,29 @@ public class ReadRssTask extends AsyncTask<String, Void, Feed> {
         String lastBuildDate = rssParser.getLastBuildDate();
 
         if(!lastBuildDate.equals(FeedBuildDate.getBuildDate(category))) {
+            Time time = new Time();
+
             for(int i = rssParser.size() - 1; i >= 0; i--) {
                 News news = rssParser.getItem(i);
                 news.setCategory(category);
                 try {
-                    feed.addOrUpdate(news);
+                    if(i < 20 || rssParser.size() < 20) {
+                        feed.addOrUpdate(news, true);
+                    } else feed.addOrUpdate(news, false);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
             FeedBuildDate.changeBuildDate(category, lastBuildDate);
+
+            Log.i(TAG, "parse time " + String.valueOf(time.getTime()));
         } else {
+            Time time = new Time();
+
             feed.setNewsList(DatabaseManager.getNewsListFromDatabase(category, MyApplication.getProvider()));
+
+            Log.i(TAG, "getFromBD time " + String.valueOf(time.getTime()));
+
         }
         return feed;
     }
@@ -58,6 +70,6 @@ public class ReadRssTask extends AsyncTask<String, Void, Feed> {
     protected void onPostExecute(Feed result) {
         super.onPostExecute(result);
 
-        parseListener.onFeedParsed(result);
+        parseListener.onFinishedParse(result);
     }
 }

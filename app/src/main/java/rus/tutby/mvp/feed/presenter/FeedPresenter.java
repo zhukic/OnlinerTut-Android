@@ -1,8 +1,4 @@
-package rus.tutby.mvp.presenter;
-
-import java.util.List;
-
-import rus.tutby.mvp.model.News;
+package rus.tutby.mvp.feed.presenter;
 
 /**
  * Created by RUS on 11.03.2016.

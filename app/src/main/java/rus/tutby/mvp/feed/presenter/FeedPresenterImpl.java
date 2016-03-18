@@ -1,15 +1,8 @@
-package rus.tutby.mvp.presenter;
+package rus.tutby.mvp.feed.presenter;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import rus.tutby.MyApplication;
-import rus.tutby.database.DatabaseManager;
-import rus.tutby.mvp.model.News;
-import rus.tutby.mvp.view.FeedView;
+import rus.tutby.mvp.feed.view.FeedView;
 
 /**
  * Created by RUS on 11.03.2016.
@@ -36,25 +29,27 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
     @Override
     public void parse(boolean hasInternet) {
 
-        Log.i(TAG, "parse " + category);
+        //Log.i(TAG, "parse " + category);
 
         if(feedView != null) {
-            if(hasInternet) {
-                feedView.showRefresh();
+            feedView.showRefresh();
 
+            if(hasInternet) {
                 ReadRssTask readRssTask = new ReadRssTask(this, feed);
                 readRssTask.execute(url, category);
             } else {
                 feedView.onError("No internet connection!");
+
+                feedView.hideRefresh();
                 //onParseFinished();
             }
         }
     }
 
     @Override
-    public void onFeedParsed(Feed newFeed) {
+    public void onFinishedParse(Feed newFeed) {
 
-        Log.i(TAG, "onFeedParsed " + category);
+        //Log.i(TAG, "onFinishedParse " + category);
 
         if(newFeed != null) {
             this.feed = newFeed;
@@ -62,13 +57,14 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
         if(feedView != null) {
             feedView.hideRefresh();
             feedView.setFeed(feed.getFeedToShow());
+            Log.i(TAG, String.valueOf(feed.getSize()));
         }
     }
 
     @Override
     public void upload() {
 
-        Log.i(TAG, "upload " + category);
+        //Log.i(TAG, "upload " + category);
 
         if(feedView != null) {
 

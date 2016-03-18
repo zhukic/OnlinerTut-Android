@@ -15,11 +15,13 @@ import java.net.URLConnection;
 import java.text.ParseException;
 import java.util.Iterator;
 
-import rus.tutby.exception.NoInternetException;
 import rus.tutby.mvp.model.News;
 import rus.tutby.provider.Provider;
+import rus.tutby.utils.Time;
 
 public class RssParser {
+
+    private static final String TAG = "TAG";
 
     private static final String TAG_TUT_LAST_BUILD_DATE = "lastBuildDate";
     private static final String TAG_ONLINER_LAST_BUILD_DATE = "pubDate";
@@ -33,8 +35,6 @@ public class RssParser {
     private static final String TAG_PUB_DATE = "pubDate";
     private static final String TAG_MEDIA_CONTENT = "media:content";
     private static final String TAG_MEDIA_THUMBNAIL = "media:thumbnail";
-
-    private static final String TAG_LOG = "TAG";
 
     private String lastBuildDate;
     private Provider provider;
@@ -55,13 +55,13 @@ public class RssParser {
             }
             this.size = jsonObject.getJSONArray(TAG_ITEM).length();
         } catch (JSONException e) {
-            Log.d(TAG_LOG, "JSONException : " + e.getMessage());
+            Log.d(TAG, "JSONException : " + e.getMessage());
         } catch (IOException e) {
-            Log.d(TAG_LOG, "IOException : " + e.getMessage());
+            Log.d(TAG, "IOException : " + e.getMessage());
         } catch (NullPointerException e) {
-            Log.d(TAG_LOG, "NullPointerException");
+            Log.d(TAG, "NullPointerException");
         } catch (ParseException e) {
-            Log.d(TAG_LOG, "ParseException");
+            Log.d(TAG, "ParseException");
         }
     }
 
@@ -73,8 +73,8 @@ public class RssParser {
         News news = null;
         try {
             news = parseJSONItem((JSONObject) jsonObject.getJSONArray(TAG_ITEM).get(index));
-        }catch (ParseException | JSONException e) {
-            Log.d(TAG_LOG, "ParseException | JSONException : " + e.getMessage());
+        } catch (ParseException | JSONException e) {
+            Log.d(TAG, "ParseException | JSONException : " + e.getMessage());
         }
         return news;
     }

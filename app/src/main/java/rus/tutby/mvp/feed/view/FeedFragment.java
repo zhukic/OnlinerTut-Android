@@ -1,4 +1,4 @@
-package rus.tutby.mvp.view;
+package rus.tutby.mvp.feed.view;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -20,11 +18,11 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rus.tutby.activity.NewsActivity;
+import rus.tutby.mvp.news.view.NewsActivity;
 import rus.tutby.adapters.NewsAdapter;
 import rus.tutby.R;
-import rus.tutby.mvp.presenter.FeedPresenter;
-import rus.tutby.mvp.presenter.FeedPresenterImpl;
+import rus.tutby.mvp.feed.presenter.FeedPresenter;
+import rus.tutby.mvp.feed.presenter.FeedPresenterImpl;
 import rus.tutby.mvp.model.News;
 import rus.tutby.utils.Internet;
 
@@ -67,10 +65,10 @@ public class FeedFragment extends Fragment implements FeedView,
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityCreated(Bundle savedInstance) {
+        super.onActivityCreated(savedInstance);
 
-        feedPresenter.parse(Internet.hasNet(getContext()));
+        feedPresenter.parse(Internet.Companion.hasNet(getContext()));
     }
 
     @Override
@@ -85,7 +83,12 @@ public class FeedFragment extends Fragment implements FeedView,
 
     @Override
     public void hideRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
@@ -144,7 +147,7 @@ public class FeedFragment extends Fragment implements FeedView,
 
     @Override
     public void onRefresh() {
-        feedPresenter.parse(Internet.hasNet(getContext()));
+        feedPresenter.parse(Internet.Companion.hasNet(getContext()));
     }
 
     @Override

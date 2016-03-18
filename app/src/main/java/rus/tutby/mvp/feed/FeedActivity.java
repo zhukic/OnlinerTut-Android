@@ -1,4 +1,4 @@
-package rus.tutby.activity;
+package rus.tutby.mvp.feed;
 
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;

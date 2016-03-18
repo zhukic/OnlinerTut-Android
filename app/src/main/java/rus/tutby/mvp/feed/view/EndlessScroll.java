@@ -1,4 +1,4 @@
-package rus.tutby.mvp.view;
+package rus.tutby.mvp.feed.view;
 
 import android.util.Log;
 import android.widget.AbsListView;

@@ -1,18 +1,22 @@
-package rus.tutby.mvp.presenter;
+package rus.tutby.mvp.feed.presenter;
+
+import android.util.Log;
+
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import rus.tutby.MyApplication;
 import rus.tutby.database.DatabaseManager;
 import rus.tutby.mvp.model.News;
-import rus.tutby.provider.Provider;
 
 /**
  * Created by RUS on 13.03.2016.
  */
 public class Feed {
+
+    private static final String TAG = "TAG";
 
     private ArrayList<News> feed;
 
@@ -23,6 +27,10 @@ public class Feed {
         feedToShow = new ArrayList<>();
     }
 
+    public int getSize() {
+        return feed.size();
+    }
+
     private News getEqualNews(News news) {
         for(News i : feed) {
             if(i.getCategory().equals(news.getCategory()) && i.getLink().equals(news.getLink()))
@@ -31,18 +39,18 @@ public class Feed {
         return null;
     }
 
-    public int getSize() {
-        return feed.size();
-    }
-
-    public void addOrUpdate(News news) throws SQLException {
+    public void addOrUpdate(News news, boolean addToDB) throws SQLException {
         News equalNews = getEqualNews(news);
         if(equalNews != null) {
             if(!equalNews.getDate().equals(news.getDate())) {
+                Log.i(TAG, "update");
                 DatabaseManager.update(news);
+                feed.set(feed.indexOf(equalNews), news);
             }
         } else {
-            DatabaseManager.addToDatabase(news);
+            if(addToDB) {
+                DatabaseManager.addToDatabase(news);
+            }
             feed.add(0, news);
             if(feed.size() == 101) {
                 MyApplication.getNewsDao().deleteById(feed.get(feed.size() - 1).getId());
@@ -63,14 +71,26 @@ public class Feed {
         final int size = feedToShow.size();
         for(int i = size; i < size + 20; i++) {
             if(i != feed.size()) {
-                feedToShow.add(feed.get(i));
+                final News news = feed.get(i);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DatabaseManager.addToDatabase(news);
+                    }
+                });
+                feedToShow.add(news);
+                thread.start();
             } else break;
         }
         return feedToShow;
     }
 
     public ArrayList<News> getFeedToShow() {
-        feedToShow = new ArrayList<>(feed.subList(0, 20));
+        if(feed.size() > 20){
+            feedToShow = new ArrayList<>(feed.subList(0, 20));
+        } else {
+            feedToShow = new ArrayList<>(feed);
+        }
 
         return feedToShow;
     }

@@ -54,7 +54,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
         }
         else viewHolder = (ViewHolder) convertView.getTag();
 
-        viewHolder.textDate.setText(DateTimeFormatter.getShortFormattedDate(news.getDate()));
+        viewHolder.textDate.setText(DateTimeFormatter.Companion.getShortFormattedDate(news.getDate()));
         viewHolder.textTitle.setText(news.getTitle());
 
         MyApplication.getImageLoader().displayImage(news.getImageURL(), viewHolder.imageView,
