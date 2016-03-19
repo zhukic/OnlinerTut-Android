@@ -3,6 +3,7 @@ package rus.tutby.mvp.feed;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support. v7.app.ActionBarDrawerToggle;

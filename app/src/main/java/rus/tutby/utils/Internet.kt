@@ -4,6 +4,8 @@ package rus.tutby.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import com.j256.ormlite.android.apptools.OpenHelperManager
+import rus.tutby.database.DatabaseHelper
 
 class Internet {
 

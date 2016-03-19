@@ -32,5 +32,4 @@ class MyDisplayMetrics() {
             return displayMetrics.heightPixels;
         }
     }
-    
 }
