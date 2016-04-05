@@ -1,4 +1,4 @@
 # OnlinerTut-Android
-![Alt text](https://jobs.tut.by/photo/458046422.png?t=1459172337&h=9PV7fQQOqs5Sw7tHcYfefw)
-![Alt text](https://jobs.tut.by/photo/458046582.png?t=1459172337&h=ECGYDd_yCdng0Z4iMzvZgQ)
-![Alt text](https://jobs.tut.by/photo/459306748.jpeg?t=1459172337&h=9xkrtHk6Im2svtwC-IR2Cg)
+![Alt text](https://pp.vk.me/c631231/v631231574/210e3/c9zG9MKka94.jpg)
+![Alt text](https://pp.vk.me/c631231/v631231574/210ea/bPUBKCWeB-4.jpg)
+![Alt text](https://pp.vk.me/c631231/v631231574/210f1/wCGOGpjtP80.jpg)
