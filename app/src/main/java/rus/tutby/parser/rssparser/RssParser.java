@@ -15,9 +15,8 @@ import java.net.URLConnection;
 import java.text.ParseException;
 import java.util.Iterator;
 
-import rus.tutby.mvp.model.News;
-import rus.tutby.provider.Provider;
-import rus.tutby.utils.Time;
+import rus.tutby.entity.News;
+import rus.tutby.entity.Provider;
 
 public class RssParser {
 

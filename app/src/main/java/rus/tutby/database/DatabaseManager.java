@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import rus.tutby.MyApplication;
-import rus.tutby.mvp.model.News;
-import rus.tutby.provider.Provider;
+import rus.tutby.App;
+import rus.tutby.entity.News;
+import rus.tutby.entity.Provider;
 
 public class DatabaseManager {
 
@@ -19,13 +19,13 @@ public class DatabaseManager {
 
         ArrayList<News> currentNewsList = new ArrayList<>();
         try {
-            QueryBuilder<News, Integer> queryBuilder = MyApplication.getNewsDao().queryBuilder();
+            QueryBuilder<News, Integer> queryBuilder = App.getNewsDao().queryBuilder();
             queryBuilder.where().eq("category", category).and().eq("provider", provider);
-            currentNewsList = (ArrayList<News>)MyApplication.getNewsDao().query(queryBuilder.prepare());
+            currentNewsList = (ArrayList<News>) App.getNewsDao().query(queryBuilder.prepare());
             if(currentNewsList.size() > 100) {
                 while (currentNewsList.size() != 100) {
                     if(!currentNewsList.get(0).isFavorite()) {
-                        MyApplication.getNewsDao().deleteById(currentNewsList.get(0).getId());
+                        App.getNewsDao().deleteById(currentNewsList.get(0).getId());
                         currentNewsList.remove(0);
                     }
                 }
@@ -41,7 +41,7 @@ public class DatabaseManager {
         Collections.reverse(newNewsList);
         try {
             for (News news : newNewsList) {
-                MyApplication.getNewsDao().create(news);
+                App.getNewsDao().create(news);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,7 +50,7 @@ public class DatabaseManager {
 
     public synchronized static void addToDatabase(News news) {
         try {
-            MyApplication.getNewsDao().create(news);
+            App.getNewsDao().create(news);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -58,9 +58,9 @@ public class DatabaseManager {
 
     public synchronized static boolean contains(News news) {
         try {
-            QueryBuilder<News, Integer> queryBuilder = MyApplication.getNewsDao().queryBuilder();
+            QueryBuilder<News, Integer> queryBuilder = App.getNewsDao().queryBuilder();
             queryBuilder.where().eq("link", news.getLink()).and().eq("category", news.getCategory());
-            ArrayList<News> newsToDelete = (ArrayList<News>) MyApplication.getNewsDao()
+            ArrayList<News> newsToDelete = (ArrayList<News>) App.getNewsDao()
                     .query(queryBuilder.prepare());
             if(newsToDelete.size() != 0) {
                 return true;
@@ -73,21 +73,21 @@ public class DatabaseManager {
 
     public synchronized static void update(News news) {
         try {
-            MyApplication.getNewsDao().update(news);
+            App.getNewsDao().update(news);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public synchronized static LinkedList<News> getFavoriteNewsListFromDatabase() throws SQLException {
-        QueryBuilder<News, Integer> queryBuilder = MyApplication.getNewsDao().queryBuilder();
+        QueryBuilder<News, Integer> queryBuilder = App.getNewsDao().queryBuilder();
         queryBuilder.where().eq("isFavorite", true);
-        return (LinkedList<News>)MyApplication.getNewsDao().query(queryBuilder.prepare());
+        return (LinkedList<News>) App.getNewsDao().query(queryBuilder.prepare());
     }
 
     public synchronized static void remove(News news) {
         try {
-            MyApplication.getNewsDao().deleteById(news.getId());
+            App.getNewsDao().deleteById(news.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -95,7 +95,7 @@ public class DatabaseManager {
 
     public synchronized static void clearTable() {
         try {
-            TableUtils.clearTable(MyApplication.getNewsDao().getConnectionSource(), News.class);
+            TableUtils.clearTable(App.getNewsDao().getConnectionSource(), News.class);
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
