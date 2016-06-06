@@ -1,86 +1,113 @@
 package rus.tutby.ui.adapters;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-import java.util.List;
+import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import rus.tutby.App;
 import rus.tutby.R;
 import rus.tutby.utils.DateTimeFormatter;
 import rus.tutby.entity.News;
 
 
-public class NewsAdapter extends ArrayAdapter<News> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private final Typeface ROBOTO_TYPEFACE;
+    private Typeface ROBOTO_TYPEFACE;
 
-    public NewsAdapter(Context context, List objects) {
-        super(context, 0, objects);
-        ROBOTO_TYPEFACE = Typeface.createFromAsset(getContext().getAssets(), "Roboto-Regular.ttf");
+    private ArrayList<News> newsList;
+
+    public interface OnItemClickListener {
+        void onItemClicked(int position);
     }
 
-    private static class ViewHolder{
-        public TextView textDate;
-        public TextView textTitle;
-        public ImageView imageView;
+    private OnItemClickListener onItemClickListener;
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        @Bind(R.id.textDate) TextView textDate;
+        @Bind(R.id.textTitle) TextView textTitle;
+        @Bind(R.id.imageView) ImageView imageView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    public NewsAdapter(ArrayList<News> newsList) {
+        this.newsList = newsList;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        final News news = getItem(position);
-
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
-            viewHolder = new ViewHolder();
-            viewHolder.textDate = (TextView) convertView.findViewById(R.id.textDate);
-            viewHolder.textTitle = (TextView) convertView.findViewById(R.id.textTitle);
-            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
-            viewHolder.textDate.setTypeface(ROBOTO_TYPEFACE);
-            viewHolder.textTitle.setTypeface(ROBOTO_TYPEFACE);
-            convertView.setTag(viewHolder);
-        }
-        else viewHolder = (ViewHolder) convertView.getTag();
-
-        viewHolder.textDate.setText(DateTimeFormatter.Companion.getShortFormattedDate(news.getDate()));
-        viewHolder.textTitle.setText(news.getTitle());
-
-        App.getImageLoader().displayImage(news.getImageURL(), viewHolder.imageView,
-                App.getDisplayImageOptions(), new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String s, View view) {
-            }
-
-            @Override
-            public void onLoadingFailed(String s, View view, FailReason failReason) {
-            }
-
-            @Override
-            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
-                alphaAnimation.setDuration(1000);
-                ImageView imageView = (ImageView) view;
-                imageView.setImageBitmap(bitmap);
-                imageView.startAnimation(alphaAnimation);
-            }
-
-            @Override
-            public void onLoadingCancelled(String s, View view) {
-            }
-        });
-
-        return convertView;
+    public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false));
     }
+
+    @Override
+    public void onBindViewHolder(final NewsAdapter.ViewHolder holder, int position) {
+
+        final News news = newsList.get(position);
+
+        ROBOTO_TYPEFACE = Typeface.createFromAsset(holder.itemView.getContext().getAssets(), "Roboto-Regular.ttf");
+
+        holder.textDate.setText(DateTimeFormatter.Companion.getShortFormattedDate(news.getDate()));
+        holder.textTitle.setText(news.getTitle());
+
+        if(onItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClicked(holder.getAdapterPosition());
+                }
+            });
+        }
+
+        App.getImageLoader().displayImage(news.getImageURL(), holder.imageView,
+                App.getDisplayImageOptions(), new ImageLoadingListener() {
+
+                    @Override
+                    public void onLoadingStarted(String s, View view) {
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String s, View view, FailReason failReason) {
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+                        alphaAnimation.setDuration(1000);
+                        ImageView imageView = (ImageView) view;
+                        imageView.setImageBitmap(bitmap);
+                        imageView.startAnimation(alphaAnimation);
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String s, View view) {
+                    }
+                });
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    @Override
+    public int getItemCount() {
+        return newsList.size();
+    }
+
 }

@@ -11,7 +11,6 @@ import rus.tutby.App;
 /**
  * Created by RUS on 05.06.2016.
  */
-@Module(injects = App.class)
 public class AppModule {
 
     private App app;
@@ -20,8 +19,6 @@ public class AppModule {
         this.app = app;
     }
 
-    @Provides
-    @Singleton
     public Context provideApplicationContext() {
         return app;
     }

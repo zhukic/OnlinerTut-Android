@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +16,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rus.tutby.mvp.news.view.NewsActivity;
 import rus.tutby.ui.adapters.NewsAdapter;
 import rus.tutby.R;
 import rus.tutby.presenter.FeedPresenter;
@@ -27,12 +29,12 @@ import rus.tutby.entity.News;
 import rus.tutby.utils.Internet;
 
 public class FeedFragment extends Fragment implements FeedView,
-        AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+        NewsAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "TAG";
 
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.listView) ListView listView;
+    @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.lowProgressBar) ProgressBar lowProgressBar;
 
     private NewsAdapter newsAdapter;
@@ -45,16 +47,8 @@ public class FeedFragment extends Fragment implements FeedView,
         ButterKnife.bind(this, rootView);
 
         swipeRefreshLayout.setOnRefreshListener(this);
-        listView.setOnItemClickListener(this);
 
-        listView.setOnScrollListener(new EndlessScroll() {
-            @Override
-            public void onUpload() {
-                feedPresenter.upload();
-            }
-        });
-
-        newsAdapter = new NewsAdapter(getActivity().getApplicationContext(), null);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         final String url = getArguments().getString("URL");
         final String category = getArguments().getString("CATEGORY");
@@ -102,8 +96,10 @@ public class FeedFragment extends Fragment implements FeedView,
     }
 
     @Override
-    public void setFeed(List<News> items) {
-        listView.setAdapter(new NewsAdapter(getActivity().getApplicationContext(), items));
+    public void setFeed(ArrayList<News> items) {
+        newsAdapter = new NewsAdapter(items);
+        newsAdapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(newsAdapter);
     }
 
     @Override
@@ -114,7 +110,7 @@ public class FeedFragment extends Fragment implements FeedView,
     @Override
     public void onError(String message) {
         if(isAdded()) {
-            Snackbar snackbar = Snackbar.make(listView, "",
+            Snackbar snackbar = Snackbar.make(recyclerView, "",
                     Snackbar.LENGTH_LONG)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
@@ -141,7 +137,7 @@ public class FeedFragment extends Fragment implements FeedView,
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClicked(int position) {
         feedPresenter.onNewsClicked(position);
     }
 

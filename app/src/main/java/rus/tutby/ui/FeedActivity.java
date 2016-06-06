@@ -132,9 +132,9 @@ public class FeedActivity extends AppCompatActivity {
 
     private ProviderPagerAdapter getProviderPagerAdapter() {
         switch (App.getProvider()) {
-            case Provider.TUT:
+            case TUT:
                 return new TutPagerAdapter(getSupportFragmentManager(), getProviderCategories(), getProviderUrls());
-            case Provider.ONLINER:
+            case ONLINER:
                 return new OnlinerPagerAdapter(getSupportFragmentManager(), getProviderCategories(), getProviderUrls());
             default:
                 return null;
@@ -143,9 +143,9 @@ public class FeedActivity extends AppCompatActivity {
 
     private String getActivityTitle() {
         switch (App.getProvider()) {
-            case Provider.TUT:
+            case TUT:
                 return getResources().getString(R.string.tut);
-            case Provider.ONLINER:
+            case ONLINER:
                 return getResources().getString(R.string.onliner);
             default:
                 return null;
@@ -154,9 +154,9 @@ public class FeedActivity extends AppCompatActivity {
 
     private String[] getProviderCategories() {
         switch (App.getProvider()) {
-            case Provider.TUT:
+            case TUT:
                 return getResources().getStringArray(R.array.tut_categories);
-            case Provider.ONLINER:
+            case ONLINER:
                 return getResources().getStringArray(R.array.onliner_categories);
         }
         return null;
@@ -164,9 +164,9 @@ public class FeedActivity extends AppCompatActivity {
 
     private String[] getProviderUrls() {
         switch (App.getProvider()) {
-            case Provider.TUT:
+            case TUT:
                 return getResources().getStringArray(R.array.tut_urls);
-            case Provider.ONLINER:
+            case ONLINER:
                 return getResources().getStringArray(R.array.onliner_urls);
         }
         return null;

@@ -1,5 +1,6 @@
 package rus.tutby.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rus.tutby.entity.News;
@@ -17,7 +18,7 @@ public interface FeedView {
 
     void hideLowProgress();
 
-    void setFeed(List<News> feed);
+    void setFeed(ArrayList<News> feed);
 
     void notifyAdapter();
 

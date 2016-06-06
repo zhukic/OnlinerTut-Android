@@ -10,13 +10,10 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_weight="1">
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/listView"
-            android:scrollbars="vertical"
-            android:divider="@color/divider_color"
-            android:dividerHeight="1dp" />
+            android:id="@+id/recyclerView" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
