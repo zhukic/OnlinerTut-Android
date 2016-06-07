@@ -44,9 +44,11 @@ public class FeedFragment extends Fragment implements FeedView,
         View rootView = inflater.inflate(R.layout.feed_fragment, container, false);
         ButterKnife.bind(this, rootView);
 
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         final String url = getArguments().getString("URL");
         final String category = getArguments().getString("CATEGORY");

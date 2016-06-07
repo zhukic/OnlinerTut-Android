@@ -63,6 +63,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         ROBOTO_TYPEFACE = Typeface.createFromAsset(holder.itemView.getContext().getAssets(), "Roboto-Regular.ttf");
 
+        holder.textDate.setTypeface(ROBOTO_TYPEFACE);
+        holder.textTitle.setTypeface(ROBOTO_TYPEFACE);
         holder.textDate.setText(DateTimeFormatter.Companion.getShortFormattedDate(news.getDate()));
         holder.textTitle.setText(news.getTitle());
 
