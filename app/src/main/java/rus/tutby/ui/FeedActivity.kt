@@ -2,6 +2,7 @@ package rus.tutby.ui
 
 import android.content.res.Configuration
 import android.graphics.Color
+import android.graphics.Typeface
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
@@ -12,9 +13,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ListView
+import android.widget.*
 
 import butterknife.Bind
 import butterknife.ButterKnife
@@ -22,6 +21,7 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import kotlinx.android.synthetic.main.activity_feed.*
 import rus.tutby.App
 import rus.tutby.R
@@ -75,6 +75,10 @@ class FeedActivity : AppCompatActivity() {
         val accountHeader = AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
+                .addProfiles(
+                        ProfileDrawerItem().withName(getString(R.string.tut)).withIcon(R.drawable.tut),
+                        ProfileDrawerItem().withName(getString(R.string.onliner)).withIcon(R.drawable.onliner)
+                )
                 .build()
 
         val drawer = DrawerBuilder()
@@ -116,9 +120,11 @@ class FeedActivity : AppCompatActivity() {
 
     private fun setTabs() {
         val categories = providerCategories
-        tabLayout!!.removeAllTabs()
-        for (category in categories) {
-            tabLayout!!.addTab(tabLayout!!.newTab().setText(category))
+        tabLayout.removeAllTabs()
+        for (i in 0..categories.size - 1) {
+            tabLayout.addTab(tabLayout.newTab().setText(categories[i]))
+            val tv: TextView = ((tabLayout.getChildAt(0) as LinearLayout).getChildAt(i) as LinearLayout).getChildAt(1) as TextView
+            tv.typeface = Typeface.createFromAsset(assets, "Roboto-Medium.ttf")
         }
     }
 
@@ -129,12 +135,11 @@ class FeedActivity : AppCompatActivity() {
         }
     }
 
-    private val activityTitle: String?
+    private val activityTitle: String
         get() {
             when (App.getProvider()) {
                 Provider.TUT -> return resources.getString(R.string.tut)
                 Provider.ONLINER -> return resources.getString(R.string.onliner)
-                else -> return null
             }
         }
 
