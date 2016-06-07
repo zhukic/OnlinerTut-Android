@@ -23,6 +23,7 @@
                 <android.support.design.widget.AppBarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:theme="@style/AppTheme.AppBarOverlay"
                     android:id="@+id/app_bar_layout">
 
                     <android.support.v7.widget.Toolbar
@@ -30,13 +31,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         android:background="?attr/colorPrimary"
-                        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                         app:layout_scrollFlags="scroll|enterAlways"/>
 
                     <android.support.design.widget.TabLayout
-                        android:id="@+id/tab_layout"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
+                        android:id="@+id/tab_layout"
                         android:background="?attr/colorPrimary"
                         app:tabMode="scrollable"
                         app:tabGravity="fill"

@@ -31,8 +31,6 @@ import rus.tutby.utils.Internet;
 public class FeedFragment extends Fragment implements FeedView,
         NewsAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "TAG";
-
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.lowProgressBar) ProgressBar lowProgressBar;
