@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
@@ -34,7 +35,6 @@ import rus.tutby.ui.adapters.provideradapters.ProviderPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.TutPagerAdapter
 import rus.tutby.entity.Provider
 import rus.tutby.utils.showToast
-import rus.tutby.utils.toBoolean
 import java.util.logging.Logger
 
 class FeedActivity : AppCompatActivity() {
@@ -85,17 +85,7 @@ class FeedActivity : AppCompatActivity() {
                         ProfileDrawerItem().withName(getString(R.string.tut)).withIcon(R.drawable.tut),
                         ProfileDrawerItem().withName(getString(R.string.onliner)).withIcon(R.drawable.onliner)
                 )
-                .withOnAccountHeaderProfileImageListener(object : AccountHeader.OnAccountHeaderProfileImageListener {
-                    override fun onProfileImageLongClick(view: View?, profile: IProfile<*>?, current: Boolean): Boolean {
-                        return false
-                    }
-
-                    override fun onProfileImageClick(view: View?, profile: IProfile<*>?, current: Boolean): Boolean {
-                        return changeDrawerItems(profile, current)
-                    }
-
-                })
-                .withOnAccountHeaderListener { view, iProfile, b -> changeDrawerItems(iProfile, !b) }
+                .withOnAccountHeaderListener { view, iProfile, b -> changeDrawerItems(b) }
                 .build()
 
         drawer = DrawerBuilder()
@@ -104,6 +94,8 @@ class FeedActivity : AppCompatActivity() {
                 .withToolbar(toolbar)
                 .withOnDrawerItemClickListener { view, position, drawerItem ->
                     viewPager.currentItem = position - 1
+                    Handler().postDelayed({ tabLayout.getTabAt(position - 1)?.select() }, 100)
+                    drawer.closeDrawer()
                     true
                 }
                 .withCloseOnClick(true)
@@ -118,7 +110,7 @@ class FeedActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeDrawerItems(profile: IProfile<*>?, current: Boolean): Boolean {
+    private fun changeDrawerItems(current: Boolean): Boolean {
         if(!current) {
             drawer.removeAllItems()
             changeProvider()
@@ -128,7 +120,7 @@ class FeedActivity : AppCompatActivity() {
             toolbar.title = activityTitle;
             setTabs();
         }
-        return false
+        return true
     }
 
     private fun setDrawerItems() {

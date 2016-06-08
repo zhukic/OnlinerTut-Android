@@ -27,14 +27,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/textTitle"
             android:textColor="@color/primaryTextColor"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textDate"
             android:layout_gravity="end"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:textColor="@color/secondaryTextColor" />
 
     </LinearLayout>
