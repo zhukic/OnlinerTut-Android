@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,11 +18,14 @@ import android.widget.*
 
 import butterknife.Bind
 import butterknife.ButterKnife
+import com.mikepenz.materialdrawer.AccountHeader
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
+import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
+import com.mikepenz.materialdrawer.model.interfaces.IProfile
 import kotlinx.android.synthetic.main.activity_feed.*
 import rus.tutby.App
 import rus.tutby.R
@@ -29,16 +33,18 @@ import rus.tutby.ui.adapters.provideradapters.OnlinerPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.ProviderPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.TutPagerAdapter
 import rus.tutby.entity.Provider
+import rus.tutby.utils.showToast
+import rus.tutby.utils.toBoolean
+import java.util.logging.Logger
 
 class FeedActivity : AppCompatActivity() {
 
     lateinit private var providerPagerAdapter: ProviderPagerAdapter
+    lateinit private var drawer: Drawer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed)
-
-        ButterKnife.bind(this)
 
         initToolbar()
         initTabLayout()
@@ -59,15 +65,15 @@ class FeedActivity : AppCompatActivity() {
         tabLayout.setOnTabSelectedListener(
                 object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                     override fun onTabSelected(tab: TabLayout.Tab) {
-                        viewPager!!.currentItem = tab.position
+                        viewPager.currentItem = tab.position
                     }
                 })
     }
 
     private fun initViewPager() {
         providerPagerAdapter = getProviderPagerAdapter()
-        viewPager!!.adapter = providerPagerAdapter
-        viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+        viewPager.adapter = providerPagerAdapter
+        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
     }
 
     private fun initNavigationDrawer() {
@@ -79,43 +85,68 @@ class FeedActivity : AppCompatActivity() {
                         ProfileDrawerItem().withName(getString(R.string.tut)).withIcon(R.drawable.tut),
                         ProfileDrawerItem().withName(getString(R.string.onliner)).withIcon(R.drawable.onliner)
                 )
+                .withOnAccountHeaderProfileImageListener(object : AccountHeader.OnAccountHeaderProfileImageListener {
+                    override fun onProfileImageLongClick(view: View?, profile: IProfile<*>?, current: Boolean): Boolean {
+                        return false
+                    }
+
+                    override fun onProfileImageClick(view: View?, profile: IProfile<*>?, current: Boolean): Boolean {
+                        return changeDrawerItems(profile, current)
+                    }
+
+                })
+                .withOnAccountHeaderListener { view, iProfile, b -> changeDrawerItems(iProfile, !b) }
                 .build()
 
-        val drawer = DrawerBuilder()
+        drawer = DrawerBuilder()
                 .withActivity(this)
                 .withAccountHeader(accountHeader)
                 .withToolbar(toolbar)
-                .addDrawerItems(
-                        PrimaryDrawerItem()
-                                .withName(getString(R.string.tut))
-                                .withIdentifier(1)
-                                .withTextColor(Color.BLACK)
-                                .withSelectedTextColorRes(R.color.colorPrimary),
-                        PrimaryDrawerItem()
-                                .withName(getString(R.string.onliner))
-                                .withIdentifier(2)
-                                .withTextColor(Color.BLACK)
-                                .withSelectedTextColorRes(R.color.colorPrimary),
-                        DividerDrawerItem(),
-                        PrimaryDrawerItem()
-                                .withName(getString(R.string.action_settings))
-                                .withIdentifier(3)
-                                .withTextColor(Color.BLACK)
-                                .withSelectedTextColorRes(R.color.colorPrimary)
-                )
                 .withOnDrawerItemClickListener { view, position, drawerItem ->
-                    when(position) {
-                        1 -> App.setProvider(Provider.TUT)
-                        2 -> App.setProvider(Provider.ONLINER)
-                    }
-                    providerPagerAdapter = getProviderPagerAdapter();
-                    viewPager.setAdapter(providerPagerAdapter);
-                    toolbar.title = activityTitle;
-                    setTabs();
+                    viewPager.currentItem = position - 1
                     true
                 }
                 .withCloseOnClick(true)
                 .build()
+        setDrawerItems()
+    }
+
+    private fun changeProvider() {
+        when(App.getProvider()) {
+            Provider.TUT -> App.setProvider(Provider.ONLINER)
+            Provider.ONLINER -> App.setProvider(Provider.TUT)
+        }
+    }
+
+    private fun changeDrawerItems(profile: IProfile<*>?, current: Boolean): Boolean {
+        if(!current) {
+            drawer.removeAllItems()
+            changeProvider()
+            setDrawerItems()
+            providerPagerAdapter = getProviderPagerAdapter();
+            viewPager.adapter = providerPagerAdapter;
+            toolbar.title = activityTitle;
+            setTabs();
+        }
+        return false
+    }
+
+    private fun setDrawerItems() {
+        for(i in 0..providerCategories.size - 1) {
+            drawer.addItem(
+                    PrimaryDrawerItem()
+                    .withName(providerCategories[i])
+                    .withIdentifier((i + 1).toLong())
+                    .withTextColor(Color.BLACK)
+                    .withSelectedTextColorRes(R.color.colorPrimary))
+        }
+        drawer.addItem(DividerDrawerItem())
+        drawer.addItem(
+                PrimaryDrawerItem()
+                .withName(getString(R.string.action_settings))
+                .withIdentifier(3)
+                .withTextColor(Color.BLACK)
+                .withSelectedTextColorRes(R.color.colorPrimary))
     }
 
     private fun setTabs() {
