@@ -48,7 +48,6 @@ public class FeedFragment extends Fragment implements FeedView,
         swipeRefreshLayout.setOnRefreshListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         final String url = getArguments().getString("URL");
         final String category = getArguments().getString("CATEGORY");

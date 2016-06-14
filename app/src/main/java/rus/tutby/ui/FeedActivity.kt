@@ -82,8 +82,8 @@ class FeedActivity : AppCompatActivity() {
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
-                        ProfileDrawerItem().withName(getString(R.string.tut)).withIcon(R.drawable.tut),
-                        ProfileDrawerItem().withName(getString(R.string.onliner)).withIcon(R.drawable.onliner)
+                        ProfileDrawerItem().withEmail(getString(R.string.tut)).withIcon(R.drawable.tut),
+                        ProfileDrawerItem().withEmail(getString(R.string.onliner)).withIcon(R.drawable.onliner)
                 )
                 .withOnAccountHeaderListener { view, iProfile, b -> changeDrawerItems(b) }
                 .build()
