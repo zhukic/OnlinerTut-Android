@@ -2,7 +2,16 @@ package rus.tutby.presenter;
 
 import android.util.Log;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import rus.tutby.entity.News;
+import rus.tutby.interactors.DownloadInteractor;
+import rus.tutby.interactors.IDownloadInteractor;
 import rus.tutby.ui.FeedView;
+import rx.functions.Action1;
 
 /**
  * Created by RUS on 11.03.2016.
@@ -35,8 +44,24 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
             feedView.showRefresh();
 
             if(hasInternet) {
-                ReadRssTask readRssTask = new ReadRssTask(this, feed);
-                readRssTask.execute(url, category);
+                IDownloadInteractor downloadInteractor = new DownloadInteractor(url);
+                downloadInteractor.downloadNews(new IDownloadInteractor.OnFinishedListener() {
+                    @Override
+                    public void onDownloadFinished(@NotNull List<? extends News> artists) {
+                    }
+
+                    @Override
+                    public void onDownloadError(@NotNull Throwable t) {
+
+                    }
+                }).subscribe(new Action1<Feed>() {
+                    @Override
+                    public void call(Feed feed) {
+                        onFinishedParse(feed);
+                    }
+                });
+//                ReadRssTask readRssTask = new ReadRssTask(this, feed);
+//                readRssTask.execute(url, category);
             } else {
                 feedView.onError("No internet connection!");
 
