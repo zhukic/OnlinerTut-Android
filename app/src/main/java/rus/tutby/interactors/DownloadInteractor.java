@@ -30,6 +30,7 @@ public class DownloadInteractor implements IDownloadInteractor {
             public void call(Subscriber<? super Feed> subscriber) {
                 RssParser rssParser = new RssParser(url, Provider.TUT);
                 subscriber.onNext(rssParser.getFeed());
+                subscriber.onCompleted();
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

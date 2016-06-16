@@ -10,9 +10,9 @@ import java.util.Locale;
 class DateTimeFormatter() {
 
     companion object {
-        final val INPUT_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss"
-        final val SHORT_DATE_FORMAT = "dd.MM, HH:mm"
-        final val LONG_DATE_FORMAT = "EEE, dd:MMM:yyyy, HH:mm:ss"
+        val INPUT_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss"
+        val SHORT_DATE_FORMAT = "dd.MM, HH:mm"
+        val LONG_DATE_FORMAT = "EEE, dd:MMM:yyyy, HH:mm:ss"
 
         fun getLongFormattedDate(dateIn: String): String {
             val formatter: SimpleDateFormat = SimpleDateFormat(INPUT_DATE_FORMAT, Locale.ENGLISH);

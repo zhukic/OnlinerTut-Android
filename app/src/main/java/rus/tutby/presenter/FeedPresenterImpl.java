@@ -11,6 +11,7 @@ import rus.tutby.entity.News;
 import rus.tutby.interactors.DownloadInteractor;
 import rus.tutby.interactors.IDownloadInteractor;
 import rus.tutby.ui.FeedView;
+import rx.Subscriber;
 import rx.functions.Action1;
 
 /**
@@ -54,9 +55,19 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
                     public void onDownloadError(@NotNull Throwable t) {
 
                     }
-                }).subscribe(new Action1<Feed>() {
+                }).subscribe(new Subscriber<Feed>() {
                     @Override
-                    public void call(Feed feed) {
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        feedView.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Feed feed) {
                         onFinishedParse(feed);
                     }
                 });
@@ -82,7 +93,7 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
         if(feedView != null) {
             feedView.hideRefresh();
             feedView.setFeed(feed.getFeedToShow());
-            Log.i(TAG, String.valueOf(feed.getSize()));
+            //Log.i(TAG, String.valueOf(feed.getSize()));
         }
     }
 

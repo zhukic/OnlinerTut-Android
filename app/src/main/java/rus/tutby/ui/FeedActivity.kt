@@ -1,41 +1,28 @@
 package rus.tutby.ui
 
-import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.widget.Toolbar
-import android.util.Log
+import android.support.design.widget.TabLayout
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.*
-
-import butterknife.Bind
-import butterknife.ButterKnife
-import com.mikepenz.materialdrawer.AccountHeader
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
-import com.mikepenz.materialdrawer.model.interfaces.IProfile
 import kotlinx.android.synthetic.main.activity_feed.*
 import rus.tutby.App
 import rus.tutby.R
+import rus.tutby.entity.Provider
 import rus.tutby.ui.adapters.provideradapters.OnlinerPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.ProviderPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.TutPagerAdapter
-import rus.tutby.entity.Provider
-import rus.tutby.utils.showToast
-import java.util.logging.Logger
 
 class FeedActivity : AppCompatActivity() {
 
@@ -127,18 +114,18 @@ class FeedActivity : AppCompatActivity() {
         for(i in 0..providerCategories.size - 1) {
             drawer.addItem(
                     PrimaryDrawerItem()
-                    .withName(providerCategories[i])
-                    .withIdentifier((i + 1).toLong())
-                    .withTextColor(Color.BLACK)
-                    .withSelectedTextColorRes(R.color.colorPrimary))
+                            .withName(providerCategories[i])
+                            .withIdentifier((i + 1).toLong())
+                            .withTextColor(Color.BLACK)
+                            .withSelectedTextColorRes(R.color.colorPrimary))
         }
         drawer.addItem(DividerDrawerItem())
         drawer.addItem(
                 PrimaryDrawerItem()
-                .withName(getString(R.string.action_settings))
-                .withIdentifier(3)
-                .withTextColor(Color.BLACK)
-                .withSelectedTextColorRes(R.color.colorPrimary))
+                        .withName(getString(R.string.action_settings))
+                        .withIdentifier(3)
+                        .withTextColor(Color.BLACK)
+                        .withSelectedTextColorRes(R.color.colorPrimary))
     }
 
     private fun setTabs() {
@@ -191,3 +178,4 @@ class FeedActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 }
+

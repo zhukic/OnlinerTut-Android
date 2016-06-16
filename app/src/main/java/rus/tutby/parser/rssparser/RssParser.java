@@ -55,6 +55,7 @@ public class RssParser {
                 setLastBuildDate(this.jsonObject.getString(TAG_ONLINER_LAST_BUILD_DATE));
             }
             this.size = jsonObject.getJSONArray(TAG_ITEM).length();
+            Log.i(TAG, provider.toString() + " " + lastBuildDate);
         } catch (JSONException e) {
             Log.d(TAG, "JSONException : " + e.getMessage());
         } catch (IOException e) {
