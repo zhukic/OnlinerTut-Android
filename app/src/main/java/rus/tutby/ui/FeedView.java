@@ -18,7 +18,7 @@ public interface FeedView {
 
     void hideLowProgress();
 
-    void setFeed(ArrayList<News> feed);
+    void setFeed(List<News> feed);
 
     void notifyAdapter();
 

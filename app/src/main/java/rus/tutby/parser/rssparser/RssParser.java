@@ -55,7 +55,6 @@ public class RssParser {
                 setLastBuildDate(this.jsonObject.getString(TAG_ONLINER_LAST_BUILD_DATE));
             }
             this.size = jsonObject.getJSONArray(TAG_ITEM).length();
-            Log.i(TAG, provider.toString() + " " + lastBuildDate);
         } catch (JSONException e) {
             Log.d(TAG, "JSONException : " + e.getMessage());
         } catch (IOException e) {
@@ -65,6 +64,27 @@ public class RssParser {
         } catch (ParseException e) {
             Log.d(TAG, "ParseException");
         }
+    }
+
+    private String readFromUrl(String url) throws IOException {
+        URL website = new URL(url);
+        URLConnection connection = website.openConnection();
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        StringBuilder response = new StringBuilder();
+        String inputLine;
+
+        while ((inputLine = in.readLine()) != null) {
+            inputLine = inputLine.replace("<![CDATA", "")
+                    .replace("]>", "")
+                    .replace("[", "")
+                    .replace("]", "");
+            response.append(inputLine);
+        }
+
+        in.close();
+
+        return response.toString();
     }
 
     public int size() {
@@ -82,32 +102,7 @@ public class RssParser {
     }
 
     public String getLastBuildDate() {
-        if(lastBuildDate == null)
-            return "";
         return lastBuildDate;
-    }
-
-    private String readFromUrl(String url) throws IOException {
-        URL website = new URL(url);
-        URLConnection connection = website.openConnection();
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                        connection.getInputStream()));
-
-        StringBuilder response = new StringBuilder();
-        String inputLine;
-
-        while ((inputLine = in.readLine()) != null) {
-            inputLine = inputLine.replace("<![CDATA", "")
-                    .replace("]>", "")
-                    .replace("[", "")
-                    .replace("]", "");
-            response.append(inputLine);
-        }
-
-        in.close();
-
-        return response.toString();
     }
 
     private void setLastBuildDate(String lastBuildDate) throws ParseException {

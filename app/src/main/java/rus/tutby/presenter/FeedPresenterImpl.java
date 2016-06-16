@@ -1,18 +1,14 @@
 package rus.tutby.presenter;
 
-import android.util.Log;
-
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rus.tutby.entity.News;
-import rus.tutby.interactors.DownloadInteractor;
+import rus.tutby.interactors.GetNewsListUseCase;
 import rus.tutby.interactors.IDownloadInteractor;
 import rus.tutby.ui.FeedView;
 import rx.Subscriber;
-import rx.functions.Action1;
 
 /**
  * Created by RUS on 11.03.2016.
@@ -22,6 +18,7 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
     private static final String TAG = "TAG";
 
     private FeedView feedView;
+    private GetNewsListUseCase getNewsListUseCase;
 
     private String url;
     private String category;
@@ -34,6 +31,7 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
         this.category = category;
 
         feed = new Feed();
+        getNewsListUseCase = new GetNewsListUseCase();
     }
 
     @Override
@@ -45,38 +43,9 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
             feedView.showRefresh();
 
             if(hasInternet) {
-                IDownloadInteractor downloadInteractor = new DownloadInteractor(url);
-                downloadInteractor.downloadNews(new IDownloadInteractor.OnFinishedListener() {
-                    @Override
-                    public void onDownloadFinished(@NotNull List<? extends News> artists) {
-                    }
-
-                    @Override
-                    public void onDownloadError(@NotNull Throwable t) {
-
-                    }
-                }).subscribe(new Subscriber<Feed>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        feedView.onError(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(Feed feed) {
-                        onFinishedParse(feed);
-                    }
-                });
-//                ReadRssTask readRssTask = new ReadRssTask(this, feed);
-//                readRssTask.execute(url, category);
+                getNewsListUseCase.downloadNews(url, new NewsListSubscriber());
             } else {
-                feedView.onError("No internet connection!");
-
-                feedView.hideRefresh();
+                this.onError("No internet connection!");
                 //onParseFinished();
             }
         }
@@ -113,6 +82,19 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
         }
     }
 
+    private void showNewsList(List<News> newsList) {
+        feedView.setFeed(newsList);
+    }
+
+    private void hideRefresh() {
+        this.feedView.hideRefresh();
+    }
+
+    private void onError(String message) {
+        feedView.onError(message);
+        feedView.hideRefresh();
+    }
+
     @Override
     public void onDestroy() {
         feedView = null;
@@ -121,5 +103,23 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
     @Override
     public void onNewsClicked(int position) {
         feedView.openNews(feed.getNews(position).getId());
+    }
+
+    private final class NewsListSubscriber extends Subscriber<List<News>> {
+
+        @Override
+        public void onCompleted() {
+            FeedPresenterImpl.this.hideRefresh();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            FeedPresenterImpl.this.onError(e.getMessage());
+        }
+
+        @Override
+        public void onNext(List<News> newsList) {
+            FeedPresenterImpl.this.showNewsList(newsList);
+        }
     }
 }

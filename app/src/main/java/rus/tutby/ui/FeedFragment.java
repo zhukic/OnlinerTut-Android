@@ -95,7 +95,7 @@ public class FeedFragment extends Fragment implements FeedView,
     }
 
     @Override
-    public void setFeed(ArrayList<News> items) {
+    public void setFeed(List<News> items) {
         newsAdapter = new NewsAdapter(items);
         newsAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(newsAdapter);

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,9 +25,7 @@ import rus.tutby.entity.News;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private Typeface ROBOTO_TYPEFACE;
-
-    private ArrayList<News> newsList;
+    private List<News> newsList;
 
     public interface OnItemClickListener {
         void onItemClicked(int position);
@@ -47,7 +45,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
-    public NewsAdapter(ArrayList<News> newsList) {
+    public NewsAdapter(List<News> newsList) {
         this.newsList = newsList;
     }
 
@@ -61,7 +59,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         final News news = newsList.get(position);
 
-        ROBOTO_TYPEFACE = Typeface.createFromAsset(holder.itemView.getContext().getAssets(), "Roboto-Regular.ttf");
+        Typeface ROBOTO_TYPEFACE = Typeface.createFromAsset(holder.itemView.getContext().getAssets(), "Roboto-Regular.ttf");
 
         holder.textDate.setTypeface(ROBOTO_TYPEFACE);
         holder.textTitle.setTypeface(ROBOTO_TYPEFACE);
