@@ -84,12 +84,6 @@ public class Feed {
     }
 
     public ArrayList<News> getFeedToShow() {
-        if(feed.size() > 20){
-            feedToShow = new ArrayList<>(feed.subList(0, 20));
-        } else {
-            feedToShow = new ArrayList<>(feed);
-        }
-
-        return feedToShow;
+        return feed;
     }
 }

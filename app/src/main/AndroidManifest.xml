@@ -12,7 +12,7 @@
         android:label="OnlinerTUT"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".ui.FeedActivity"
+            android:name="rus.tutby.ui.FeedActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
             <intent-filter>

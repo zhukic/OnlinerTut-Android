@@ -97,6 +97,7 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
 
     @Override
     public void onDestroy() {
+        getNewsListUseCase.unsubscribe();
         feedView = null;
     }
 
