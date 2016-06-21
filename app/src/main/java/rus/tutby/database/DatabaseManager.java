@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import rus.tutby.App;
 import rus.tutby.entity.News;
@@ -37,7 +38,7 @@ public class DatabaseManager {
         return currentNewsList;
     }
 
-    public synchronized static void addToDatabase(LinkedList<News> newNewsList) {
+    public synchronized static void addToDatabase(List<News> newNewsList) {
         Collections.reverse(newNewsList);
         try {
             for (News news : newNewsList) {

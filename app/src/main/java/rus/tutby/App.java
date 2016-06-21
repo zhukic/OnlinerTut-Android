@@ -9,7 +9,9 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import dagger.ObjectGraph;
 import rus.tutby.database.DatabaseHelper;
+import rus.tutby.di.AppModule;
 import rus.tutby.entity.News;
 import rus.tutby.entity.Provider;
 
@@ -55,6 +57,7 @@ public class App extends Application {
         imageLoader.init(config);
 
         //DatabaseManager.clearTable();
+        ObjectGraph.create(new AppModule(this));
 
         provider = Provider.TUT;
     }

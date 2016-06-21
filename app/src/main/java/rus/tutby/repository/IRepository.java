@@ -3,6 +3,7 @@ package rus.tutby.repository;
 import java.util.List;
 
 import rus.tutby.entity.News;
+import rus.tutby.presenter.Feed;
 import rx.Observable;
 
 /**
@@ -10,8 +11,8 @@ import rx.Observable;
  */
 public interface IRepository {
 
-    Observable<List<News>> getAllNews();
+    Observable<Feed> getAllNews(final String url);
 
-    Observable<News> getNewsById(int id);
+    Observable<News> getNewsById(final int id);
 
 }
