@@ -28,7 +28,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<News> newsList;
 
     public interface OnItemClickListener {
-        void onItemClicked(int position);
+        void onItemClicked(News news, int position);
     }
 
     private OnItemClickListener onItemClickListener;
@@ -70,7 +70,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickListener.onItemClicked(holder.getAdapterPosition());
+                    onItemClickListener.onItemClicked(news, holder.getAdapterPosition());
                 }
             });
         }

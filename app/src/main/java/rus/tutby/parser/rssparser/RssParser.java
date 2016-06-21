@@ -16,6 +16,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.inject.Inject;
+
 import rus.tutby.entity.News;
 import rus.tutby.entity.Provider;
 import rus.tutby.presenter.Feed;
@@ -37,13 +39,16 @@ public class RssParser {
     private static final String TAG_MEDIA_CONTENT = "media:content";
     private static final String TAG_MEDIA_THUMBNAIL = "media:thumbnail";
 
+    private String url;
     private String lastBuildDate;
-    private Provider provider;
+    @Inject
+    Provider provider;
     private JSONObject jsonObject;
     private int size;
 
-    public RssParser(String url, Provider provider) {
+    public RssParser(String url) {
         this.provider = provider;
+        this.url = url;
         try {
             //Log.d(Constants.TAG, url);
             this.jsonObject = XML.toJSONObject(readFromUrl(url))
@@ -86,11 +91,6 @@ public class RssParser {
 
         return response.toString();
     }
-
-    public int size() {
-        return size;
-    }
-
     public News getItem(int index) {
         News news = null;
         try {
@@ -167,4 +167,9 @@ public class RssParser {
         feed.setNewsList(newsList);
         return feed;
     }
+
+    public int size() {
+        return size;
+    }
+
 }

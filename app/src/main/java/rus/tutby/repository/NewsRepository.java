@@ -13,6 +13,7 @@ import rus.tutby.entity.News;
 import rus.tutby.parser.rssparser.RssParser;
 import rus.tutby.presenter.Feed;
 import rx.Observable;
+import rx.Single;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -23,24 +24,24 @@ import rx.schedulers.Schedulers;
  */
 public class NewsRepository implements IRepository {
 
-    private Context context;
-
     @Inject
-    NewsRepository(Context context) {
-        this.context = context;
-    }
+    Context context;
+
+    public NewsRepository() {}
 
     @Override
-    public Observable<Feed> getAllNews(final String url) {
-        return Observable.create(new Observable.OnSubscribe<Feed>() {
+    public Observable<News> getAllNews(final String url) {
+        return Observable.create(new Observable.OnSubscribe<News>() {
             @Override
-            public void call(Subscriber<? super Feed> subscriber) {
-                RssParser rssParser = new RssParser(url, App.getProvider());
-                DatabaseManager.addToDatabase(rssParser.getFeed().getFeedToShow());
-                subscriber.onNext(rssParser.getFeed());
+            public void call(Subscriber<? super News> subscriber) {
+                RssParser rssParser = new RssParser(url);
+                for(int i = 0; i < rssParser.size(); i++) {
+                    subscriber.onNext(rssParser.getItem(i));
+                }
                 subscriber.onCompleted();
             }
         });
+
     }
 
     @Override

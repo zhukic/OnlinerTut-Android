@@ -35,7 +35,7 @@ public class ReadRssTask extends AsyncTask<String, Void, Feed> {
         final String url = params[0];
         final String category = params[1];
 
-        RssParser rssParser = new RssParser(url, App.getProvider());
+        RssParser rssParser = new RssParser(url);
         String lastBuildDate = rssParser.getLastBuildDate();
 
         if(!lastBuildDate.equals(FeedBuildDate.getBuildDate(category))) {

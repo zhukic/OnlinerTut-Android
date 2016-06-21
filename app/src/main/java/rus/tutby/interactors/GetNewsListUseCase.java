@@ -31,20 +31,15 @@ public class GetNewsListUseCase {
 
     private Subscription subscription = Subscriptions.empty();
 
-    @Inject
     NewsRepository newsRepository;
 
     public GetNewsListUseCase() {
+        newsRepository = new NewsRepository();
     }
 
     public void downloadNews(String url, Subscriber subscriber) {
         this.subscription = this.newsRepository.getAllNews(url)
-                .map(new Func1<Feed, List<News>>() {
-                    @Override
-                    public List<News> call(Feed feed) {
-                        return feed.getFeedToShow();
-                    }
-                })
+                .toList()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

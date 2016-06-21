@@ -11,7 +11,7 @@ import rx.Observable;
  */
 public interface IRepository {
 
-    Observable<Feed> getAllNews(final String url);
+    Observable<News> getAllNews(final String url);
 
     Observable<News> getNewsById(final int id);
 

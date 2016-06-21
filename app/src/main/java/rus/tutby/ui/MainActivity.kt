@@ -24,7 +24,7 @@ import rus.tutby.ui.adapters.provideradapters.OnlinerPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.ProviderPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.TutPagerAdapter
 
-class FeedActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     lateinit private var providerPagerAdapter: ProviderPagerAdapter
     lateinit private var drawer: Drawer
@@ -178,4 +178,5 @@ class FeedActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 }
+
 

@@ -1,6 +1,5 @@
 package rus.tutby.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rus.tutby.entity.News;
@@ -24,6 +23,6 @@ public interface FeedView {
 
     void onError(String message);
 
-    void openNews(int newsID);
+    void openNewsActivity(int newsID);
 
 }

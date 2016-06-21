@@ -11,12 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -48,6 +45,7 @@ public class FeedFragment extends Fragment implements FeedView,
         swipeRefreshLayout.setOnRefreshListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         final String url = getArguments().getString("URL");
         final String category = getArguments().getString("CATEGORY");
@@ -129,15 +127,16 @@ public class FeedFragment extends Fragment implements FeedView,
     }
 
     @Override
-    public void openNews(int newsID) {
+    public void openNewsActivity(int newsId) {
         Intent intent = new Intent(getActivity().getApplicationContext(), NewsActivity.class);
-        intent.putExtra("ID", newsID);
+        intent.putExtra("ID", newsId);
         startActivity(intent);
     }
 
     @Override
-    public void onItemClicked(int position) {
-        feedPresenter.onNewsClicked(position);
+    public void onItemClicked(News news, int position) {
+        this.openNewsActivity(news.getId());
+        //feedPresenter.onNewsClicked(position);
     }
 
     @Override

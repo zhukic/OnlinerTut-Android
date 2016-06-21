@@ -42,7 +42,8 @@ public class DatabaseManager {
         Collections.reverse(newNewsList);
         try {
             for (News news : newNewsList) {
-                App.getNewsDao().create(news);
+                if(newNewsList.indexOf(news) <= 20)
+                    App.getNewsDao().create(news);
             }
         } catch (SQLException e) {
             e.printStackTrace();

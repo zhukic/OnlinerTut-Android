@@ -1,12 +1,9 @@
 package rus.tutby.presenter;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 import rus.tutby.entity.News;
 import rus.tutby.interactors.GetNewsListUseCase;
-import rus.tutby.interactors.IDownloadInteractor;
 import rus.tutby.ui.FeedView;
 import rx.Subscriber;
 
@@ -103,7 +100,7 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
 
     @Override
     public void onNewsClicked(int position) {
-        feedView.openNews(feed.getNews(position).getId());
+        feedView.openNewsActivity(feed.getNews(position).getId());
     }
 
     private final class NewsListSubscriber extends Subscriber<List<News>> {
