@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rus.tutby.App;
+import rus.tutby.database.DatabaseManager;
 import rus.tutby.ui.adapters.NewsAdapter;
 import rus.tutby.R;
 import rus.tutby.presenter.FeedPresenter;
@@ -58,7 +61,7 @@ public class FeedFragment extends Fragment implements FeedView,
     @Override
     public void onActivityCreated(Bundle savedInstance) {
         super.onActivityCreated(savedInstance);
-
+        //Log.d("TAG", "onActivityCreated");
         feedPresenter.parse(Internet.Companion.hasNet(getContext()));
     }
 
@@ -135,6 +138,7 @@ public class FeedFragment extends Fragment implements FeedView,
 
     @Override
     public void onItemClicked(News news, int position) {
+        DatabaseManager.addToDatabase(news);
         this.openNewsActivity(news.getId());
         //feedPresenter.onNewsClicked(position);
     }
@@ -147,6 +151,7 @@ public class FeedFragment extends Fragment implements FeedView,
     @Override
     public void onDestroy() {
         super.onDestroy();
+        //Log.i("TAG", "onDestroy");
         feedPresenter.onDestroy();
     }
 }

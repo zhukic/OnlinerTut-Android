@@ -47,7 +47,6 @@ public class RssParser {
     private int size;
 
     public RssParser(String url) {
-        this.provider = provider;
         this.url = url;
         try {
             //Log.d(Constants.TAG, url);
@@ -91,6 +90,7 @@ public class RssParser {
 
         return response.toString();
     }
+
     public News getItem(int index) {
         News news = null;
         try {

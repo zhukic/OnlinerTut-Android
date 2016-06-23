@@ -1,6 +1,8 @@
 package rus.tutby.repository;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -27,7 +29,8 @@ public class NewsRepository implements IRepository {
     @Inject
     Context context;
 
-    public NewsRepository() {}
+    public NewsRepository() {
+    }
 
     @Override
     public Observable<News> getAllNews(final String url) {
