@@ -58,7 +58,7 @@ public class ReadRssTask extends AsyncTask<String, Void, Feed> {
         } else {
             Time time = new Time();
 
-            feed.setNewsList(DatabaseManager.getNewsListFromDatabase(category, App.getProvider()));
+            //feed.setNewsList(DatabaseManager.getNewsListFromDatabase(category, App.getProvider()));
 
             Log.i(TAG, "getFromBD time " + String.valueOf(time.getTime()));
 

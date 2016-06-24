@@ -14,6 +14,7 @@ import rus.tutby.database.DatabaseManager;
 import rus.tutby.entity.News;
 import rus.tutby.parser.rssparser.RssParser;
 import rus.tutby.presenter.Feed;
+import rus.tutby.repository.datasource.CloudDataStore;
 import rx.Observable;
 import rx.Single;
 import rx.Subscriber;
@@ -26,24 +27,12 @@ import rx.schedulers.Schedulers;
  */
 public class NewsRepository implements IRepository {
 
-    @Inject
-    Context context;
-
     public NewsRepository() {
     }
 
     @Override
     public Observable<News> getAllNews(final String url) {
-        return Observable.create(new Observable.OnSubscribe<News>() {
-            @Override
-            public void call(Subscriber<? super News> subscriber) {
-                RssParser rssParser = new RssParser(url);
-                for(int i = 0; i < rssParser.size(); i++) {
-                    subscriber.onNext(rssParser.getItem(i));
-                }
-                subscriber.onCompleted();
-            }
-        });
+        return new CloudDataStore().userEntityList(url);
 
     }
 

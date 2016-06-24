@@ -14,8 +14,8 @@ import rus.tutby.entity.News
 import rus.tutby.presenter.NewsPresenter
 import rus.tutby.presenter.NewsPresenterImpl
 import rus.tutby.utils.DateTimeFormatter
-import rus.tutby.utils.Internet
 import rus.tutby.utils.MyDisplayMetrics
+import rus.tutby.utils.hasInternet
 
 /**
  * Created by RUS on 17.03.2016.
@@ -40,7 +40,7 @@ class NewsActivity : AppCompatActivity(), NewsView {
 
         collapsing_toolbar.title = newsPresenter.getTitle()
 
-        newsPresenter.parse(Internet.hasNet(this))
+        newsPresenter.parse(hasInternet())
 
     }
 

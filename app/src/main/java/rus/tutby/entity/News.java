@@ -25,6 +25,8 @@ public class News {
     @DatabaseField
     private boolean isFavorite;
 
+    private int number;
+
     public News() {}
 
     public int getId() {
@@ -97,6 +99,15 @@ public class News {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public News setNumber(int number) {
+        this.number = number;
+        return this;
     }
 
     @Override

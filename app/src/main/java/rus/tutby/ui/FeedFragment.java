@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +18,12 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rus.tutby.App;
 import rus.tutby.database.DatabaseManager;
 import rus.tutby.ui.adapters.NewsAdapter;
 import rus.tutby.R;
 import rus.tutby.presenter.FeedPresenter;
 import rus.tutby.presenter.FeedPresenterImpl;
 import rus.tutby.entity.News;
-import rus.tutby.utils.Internet;
 
 public class FeedFragment extends Fragment implements FeedView,
         NewsAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -62,7 +59,8 @@ public class FeedFragment extends Fragment implements FeedView,
     public void onActivityCreated(Bundle savedInstance) {
         super.onActivityCreated(savedInstance);
         //Log.d("TAG", "onActivityCreated");
-        feedPresenter.parse(Internet.Companion.hasNet(getContext()));
+        //feedPresenter.parse(Internet.Companion.hasNet(getContext()));
+        feedPresenter.parse(true);
     }
 
     @Override
@@ -145,7 +143,7 @@ public class FeedFragment extends Fragment implements FeedView,
 
     @Override
     public void onRefresh() {
-        feedPresenter.parse(Internet.Companion.hasNet(getContext()));
+        feedPresenter.parse(true);
     }
 
     @Override

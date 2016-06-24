@@ -21,7 +21,7 @@ public class FeedBuildDate {
     private static String onlinerRealtBuildDate = "";
 
     public static String getBuildDate(String category) {
-        if (App.getProvider() == Provider.TUT) {
+        /*if (App.getProvider() == Provider.TUT) {
             switch (category) {
                 case "Главное":
                     return tutMainBuildDate;
@@ -58,12 +58,12 @@ public class FeedBuildDate {
                 case "Недвижимость":
                     return onlinerRealtBuildDate;
             }
-        }
+        }*/
         return null;
     }
     
     public static void changeBuildDate(String category, String lastBuildDate) {
-        if (App.getProvider() == Provider.TUT) {
+        /*if (App.getProvider() == Provider.TUT) {
             switch (category) {
                 case "Главное":
                     tutMainBuildDate = lastBuildDate;
@@ -100,6 +100,6 @@ public class FeedBuildDate {
                 case "Недвижимость":
                     onlinerRealtBuildDate = lastBuildDate;
             }
-        }
+        }*/
     }
 }

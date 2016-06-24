@@ -10,7 +10,6 @@ import rx.Observable;
  */
 public interface INewsStore {
 
-    Observable<List<News>> userEntityList();
+    Observable<News> userEntityList(String url);
 
-    Observable<News> userEntityDetails(final int userId);
 }

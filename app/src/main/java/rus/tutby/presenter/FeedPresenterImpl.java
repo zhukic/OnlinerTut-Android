@@ -1,5 +1,7 @@
 package rus.tutby.presenter;
 
+import android.util.Log;
+
 import java.util.List;
 
 import rus.tutby.entity.News;
@@ -117,6 +119,9 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
 
         @Override
         public void onNext(List<News> newsList) {
+            for (News news: newsList) {
+                Log.d(TAG, news.getNumber() + "");
+            }
             FeedPresenterImpl.this.showNewsList(newsList);
         }
     }

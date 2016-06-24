@@ -26,7 +26,11 @@ public class App extends Application {
 
     private static DisplayImageOptions displayImageOptions;
 
-    private static Provider provider;
+    private Provider provider;
+
+    public static ObjectGraph objectGraph;
+
+    public static int counter;
 
     @Override
     public void onCreate() {
@@ -57,10 +61,11 @@ public class App extends Application {
 
         imageLoader.init(config);
 
-        DatabaseManager.clearTable();
-        ObjectGraph.create(new AppModule(this));
-
         provider = Provider.TUT;
+
+        DatabaseManager.clearTable();
+        objectGraph = ObjectGraph.create(new AppModule(this));
+
     }
 
     @Override
@@ -91,11 +96,15 @@ public class App extends Application {
         return displayImageOptions;
     }
 
-    public static void setProvider(Provider provider) {
-        App.provider = provider;
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 
-    public static Provider getProvider() {
+    public Provider getProvider() {
         return provider;
+    }
+
+    public static int getCounter() {
+        return counter++;
     }
 }

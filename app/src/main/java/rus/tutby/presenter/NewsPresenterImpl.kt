@@ -14,11 +14,15 @@ import rus.tutby.parser.htmlparser.OnlinerHtmlParser
 import rus.tutby.parser.htmlparser.TutHtmlParser
 import rus.tutby.entity.Provider
 import java.sql.SQLException
+import javax.inject.Inject
 
 /**
  * Created by RUS on 17.03.2016.
  */
 class NewsPresenterImpl : NewsPresenter, NewsParseListener {
+
+    @Inject
+    lateinit var provider: Provider
 
     var newsView: NewsView?
 
@@ -27,6 +31,7 @@ class NewsPresenterImpl : NewsPresenter, NewsParseListener {
     constructor(newsView: NewsView, id: Int) {
         this.newsView = newsView
         this.news = getNews(id);
+        App.objectGraph.inject(this)
     }
 
     override fun parse(hasInternet: Boolean) {
@@ -74,7 +79,7 @@ class NewsPresenterImpl : NewsPresenter, NewsParseListener {
     }
 
     fun getHtmlParser(): HtmlParser {
-        when(App.getProvider()) {
+        when(provider) {
             Provider.TUT -> return TutHtmlParser(news?.link);
             Provider.ONLINER -> return OnlinerHtmlParser(news?.link)
         }

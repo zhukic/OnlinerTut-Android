@@ -1,4 +1,4 @@
-package rus.tutby.ui
+package rus.tutby
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -23,8 +23,12 @@ import rus.tutby.entity.Provider
 import rus.tutby.ui.adapters.provideradapters.OnlinerPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.ProviderPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.TutPagerAdapter
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var provider: Provider
 
     lateinit private var providerPagerAdapter: ProviderPagerAdapter
     lateinit private var drawer: Drawer
@@ -32,6 +36,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed)
+
+        App.objectGraph.inject(this)
 
         initToolbar()
         initTabLayout()
@@ -91,10 +97,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeProvider() {
-        when(App.getProvider()) {
-            Provider.TUT -> App.setProvider(Provider.ONLINER)
-            Provider.ONLINER -> App.setProvider(Provider.TUT)
+        when(provider) {
+            Provider.TUT -> (applicationContext as App).provider = Provider.ONLINER
+            Provider.ONLINER -> (applicationContext as App).provider = Provider.TUT
         }
+        provider = (applicationContext as App).provider
     }
 
     private fun changeDrawerItems(current: Boolean): Boolean {
@@ -139,7 +146,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getProviderPagerAdapter(): ProviderPagerAdapter {
-        when (App.getProvider()) {
+        when (provider) {
             Provider.TUT -> return TutPagerAdapter(supportFragmentManager, providerCategories, providerUrls)
             Provider.ONLINER -> return OnlinerPagerAdapter(supportFragmentManager, providerCategories, providerUrls)
         }
@@ -147,7 +154,7 @@ class MainActivity : AppCompatActivity() {
 
     private val activityTitle: String
         get() {
-            when (App.getProvider()) {
+            when (provider) {
                 Provider.TUT -> return resources.getString(R.string.tut)
                 Provider.ONLINER -> return resources.getString(R.string.onliner)
             }
@@ -155,7 +162,7 @@ class MainActivity : AppCompatActivity() {
 
     private val providerCategories: Array<String>
         get() {
-            when (App.getProvider()) {
+            when (provider) {
                 Provider.TUT -> return resources.getStringArray(R.array.tut_categories)
                 Provider.ONLINER -> return resources.getStringArray(R.array.onliner_categories)
             }
@@ -163,7 +170,7 @@ class MainActivity : AppCompatActivity() {
 
     private val providerUrls: Array<String>
         get() {
-            when (App.getProvider()) {
+            when (provider) {
                 Provider.TUT -> return resources.getStringArray(R.array.tut_urls)
                 Provider.ONLINER -> return resources.getStringArray(R.array.onliner_urls)
             }

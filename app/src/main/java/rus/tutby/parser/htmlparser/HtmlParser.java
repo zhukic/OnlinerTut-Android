@@ -5,6 +5,10 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
+import rus.tutby.entity.Provider;
+
 public abstract class HtmlParser {
 
     protected static final String TAG = "TAG";

@@ -14,11 +14,11 @@
         <activity
             android:name=".ui.NewsActivity"
             android:label="@string/title_activity_news"
-            android:parentActivityName=".ui.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/NewsTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -29,7 +29,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
             <intent-filter>
