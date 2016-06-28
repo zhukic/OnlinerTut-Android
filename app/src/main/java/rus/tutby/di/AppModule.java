@@ -35,7 +35,6 @@ public class AppModule {
     }
 
     @Provides
-    @Singleton
     public Provider getProvider() {
         Log.d("TAG", app.getProvider().toString());
         return app.getProvider(); }
