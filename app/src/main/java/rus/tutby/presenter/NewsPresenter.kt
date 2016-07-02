@@ -9,9 +9,5 @@ interface NewsPresenter {
 
     fun parse()
 
-    fun getDate(): String
-
-    fun getTitle(): String
-
     fun onDestroy()
 }

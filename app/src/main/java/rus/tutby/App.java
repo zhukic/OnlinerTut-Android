@@ -8,6 +8,7 @@ import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemor
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.squareup.leakcanary.LeakCanary;
 
 import dagger.ObjectGraph;
 import rus.tutby.database.DatabaseHelper;
@@ -35,6 +36,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
 
         databaseHelper = getDatabaseHelper();
         newsDao = databaseHelper.getNewsDAO();

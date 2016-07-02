@@ -23,7 +23,7 @@ public abstract class HtmlParser {
 
     public String html() throws IOException {
         Document document = Jsoup.connect(url).get();
-        return parseHTML(document);
+        return Jsoup.parse(parseHTML(document)).html();
     }
 
     protected boolean isInteger(String s) {

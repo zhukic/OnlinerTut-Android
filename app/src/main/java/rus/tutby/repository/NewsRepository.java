@@ -35,9 +35,7 @@ public class NewsRepository implements IRepository {
                     subscriber.onError(e);
                 }
             }
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
 }

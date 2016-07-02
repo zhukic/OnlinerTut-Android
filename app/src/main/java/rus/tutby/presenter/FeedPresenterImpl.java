@@ -85,9 +85,9 @@ public class FeedPresenterImpl implements FeedPresenter {
 
         @Override
         public void onNext(List<News> newsList) {
-            for (News news: newsList) {
+            /*for (News news: newsList) {
                 Log.d(TAG, news.getNumber() + "");
-            }
+            }*/
             FeedPresenterImpl.this.showNewsList(newsList);
         }
     }
