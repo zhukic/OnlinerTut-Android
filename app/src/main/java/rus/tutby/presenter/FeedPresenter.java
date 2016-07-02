@@ -7,8 +7,6 @@ public interface FeedPresenter {
 
     void parse(boolean hasInternet);
 
-    void upload();
-
     void onDestroy();
 
     void onNewsClicked(int position);

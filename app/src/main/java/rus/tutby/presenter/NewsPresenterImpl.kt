@@ -34,7 +34,9 @@ class NewsPresenterImpl : NewsPresenter, NewsParseListener {
         App.objectGraph.inject(this)
     }
 
-    override fun parse(hasInternet: Boolean) {
+    override fun parse() {
+
+        newsView?.showProgressDialog()
 
         App.getImageLoader().loadImage(news?.imageURL, App.getDisplayImageOptions(),
                 object : ImageLoadingListener {

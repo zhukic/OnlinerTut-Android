@@ -9,9 +9,13 @@ interface NewsView {
 
     fun setImage(bitmap: Bitmap?)
 
-    fun showProgress()
+    fun setDate(date: String)
 
-    fun hideProgress()
+    fun setTitle(title: String)
+
+    fun showProgressDialog()
+
+    fun hideProgressDialog()
 
     fun setHtml(html: String);
 

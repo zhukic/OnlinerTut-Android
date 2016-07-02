@@ -8,6 +8,7 @@ import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.animation.AlphaAnimation
+import com.afollestad.materialdialogs.MaterialDialog
 import kotlinx.android.synthetic.main.activity_news.*
 import rus.tutby.R
 import rus.tutby.entity.News
@@ -26,6 +27,8 @@ class NewsActivity : AppCompatActivity(), NewsView {
 
     private final val TINT: Int = 0x40000000
 
+    lateinit var newsPresenter: NewsPresenter;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
@@ -33,14 +36,9 @@ class NewsActivity : AppCompatActivity(), NewsView {
         setSupportActionBar(my_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val newsPresenter: NewsPresenter = NewsPresenterImpl(this, intent.getIntExtra("ID", -1))
+        newsPresenter = NewsPresenterImpl(this, intent.getIntExtra("ID", -1))
 
-        textDate.typeface = Typeface.createFromAsset(assets, "Roboto-Medium.ttf")
-        textDate.text = DateTimeFormatter.getLongFormattedDate(newsPresenter.getDate())
-
-        collapsing_toolbar.title = newsPresenter.getTitle()
-
-        newsPresenter.parse(hasInternet())
+        newsPresenter.parse()
 
     }
 
@@ -53,11 +51,24 @@ class NewsActivity : AppCompatActivity(), NewsView {
         imageView.startAnimation(alphaAnimation);
     }
 
-    override fun showProgress() {
-
+    override fun setTitle(title: String) {
+        collapsing_toolbar.title = newsPresenter.getTitle()
     }
 
-    override fun hideProgress() {
+    override fun setDate(date: String) {
+        textDate.typeface = Typeface.createFromAsset(assets, "Roboto-Medium.ttf")
+        textDate.text = DateTimeFormatter.getLongFormattedDate(newsPresenter.getDate())
+    }
+
+    override fun showProgressDialog() {
+        MaterialDialog.Builder(this)
+                .content(R.string.wait)
+                .progress(true, 0)
+                .progressIndeterminateStyle(true)
+                .show();
+    }
+
+    override fun hideProgressDialog() {
 
     }
 

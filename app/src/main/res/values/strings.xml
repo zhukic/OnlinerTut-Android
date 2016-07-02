@@ -3,6 +3,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_news">NewsActivity</string>
+    <string name="wait">Подождите</string>
     <string-array name="providers">
         <item>TUT</item>
         <item>Onliner</item>

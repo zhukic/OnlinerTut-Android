@@ -1,26 +1,9 @@
 package rus.tutby.interactors;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
-import dagger.ObjectGraph;
-import rus.tutby.App;
-import rus.tutby.di.AppModule;
-import rus.tutby.entity.News;
-import rus.tutby.entity.Provider;
-import rus.tutby.parser.rssparser.RssParser;
-import rus.tutby.presenter.Feed;
-import rus.tutby.presenter.FeedPresenterImpl;
 import rus.tutby.repository.NewsRepository;
-import rx.Observable;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
 
