@@ -2,10 +2,10 @@ package rus.tutby
 
 import android.graphics.Color
 import android.graphics.Typeface
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.TabLayout
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
@@ -17,12 +17,11 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import kotlinx.android.synthetic.main.activity_feed.*
-import rus.tutby.App
-import rus.tutby.R
 import rus.tutby.entity.Provider
 import rus.tutby.ui.adapters.provideradapters.OnlinerPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.ProviderPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.TutPagerAdapter
+import rus.tutby.utils.showToast
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +31,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit private var providerPagerAdapter: ProviderPagerAdapter
     lateinit private var drawer: Drawer
+
+    private val mediumTypeface: Typeface by lazy { Typeface.createFromAsset(assets, "Roboto-Medium.ttf") }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +55,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initTabLayout() {
         setTabs()
-
         tabLayout.setOnTabSelectedListener(
                 object : TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
                     override fun onTabSelected(tab: TabLayout.Tab) {
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
         for (i in 0..categories.size - 1) {
             tabLayout.addTab(tabLayout.newTab().setText(categories[i]))
             val tv: TextView = ((tabLayout.getChildAt(0) as LinearLayout).getChildAt(i) as LinearLayout).getChildAt(1) as TextView
-            tv.typeface = Typeface.createFromAsset(assets, "Roboto-Medium.ttf")
+            tv.typeface = mediumTypeface
         }
     }
 
