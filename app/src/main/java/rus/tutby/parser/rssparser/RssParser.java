@@ -20,7 +20,6 @@ import javax.inject.Inject;
 
 import rus.tutby.entity.News;
 import rus.tutby.entity.Provider;
-import rus.tutby.presenter.Feed;
 
 public class RssParser {
 
@@ -156,16 +155,6 @@ public class RssParser {
         }
         news.setProvider(provider);
         return news;
-    }
-
-    public Feed getFeed() {
-        Feed feed = new Feed();
-        ArrayList<News> newsList = new ArrayList<>();
-        for(int i = 0; i < size; i++) {
-            newsList.add(getItem(i));
-        }
-        feed.setNewsList(newsList);
-        return feed;
     }
 
     public int size() {

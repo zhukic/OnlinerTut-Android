@@ -12,7 +12,7 @@ import rx.Subscriber;
 /**
  * Created by RUS on 11.03.2016.
  */
-public class FeedPresenterImpl implements FeedPresenter, ParseListener {
+public class FeedPresenterImpl implements FeedPresenter {
 
     private static final String TAG = "TAG";
 
@@ -22,62 +22,20 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
     private String url;
     private String category;
 
-    private Feed feed;
-
     public FeedPresenterImpl(FeedView feedView, String url, String category) {
         this.feedView = feedView;
         this.url = url;
         this.category = category;
 
-        feed = new Feed();
         getNewsListUseCase = new GetNewsListUseCase();
     }
 
     @Override
-    public void parse(boolean hasInternet) {
-
-        //Log.i(TAG, "parse " + category);
+    public void parse() {
 
         if(feedView != null) {
             feedView.showRefresh();
-
-            if(hasInternet) {
-                getNewsListUseCase.downloadNews(url, new NewsListSubscriber());
-            } else {
-                this.onError("No internet connection!");
-                //onParseFinished();
-            }
-        }
-    }
-
-    @Override
-    public void onFinishedParse(Feed newFeed) {
-
-        //Log.i(TAG, "onFinishedParse " + category);
-
-        if(newFeed != null) {
-            this.feed = newFeed;
-        }
-        if(feedView != null) {
-            feedView.hideRefresh();
-            feedView.setFeed(feed.getFeedToShow());
-            //Log.i(TAG, String.valueOf(feed.getSize()));
-        }
-    }
-
-    @Override
-    public void upload() {
-
-        //Log.i(TAG, "upload " + category);
-
-        if(feedView != null) {
-
-            feedView.showLowProgress();
-
-            feed.uploadFeedToShow();
-
-            feedView.notifyAdapter();
-            feedView.hideLowProgress();
+            getNewsListUseCase.downloadNews(url, new NewsListSubscriber());
         }
     }
 
@@ -102,7 +60,7 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
 
     @Override
     public void onNewsClicked(int position) {
-        feedView.openNewsActivity(feed.getNews(position).getId());
+
     }
 
     private final class NewsListSubscriber extends Subscriber<List<News>> {
@@ -119,9 +77,9 @@ public class FeedPresenterImpl implements FeedPresenter, ParseListener {
 
         @Override
         public void onNext(List<News> newsList) {
-            for (News news: newsList) {
+            /*for (News news: newsList) {
                 Log.d(TAG, news.getNumber() + "");
-            }
+            }*/
             FeedPresenterImpl.this.showNewsList(newsList);
         }
     }

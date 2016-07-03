@@ -1,25 +1,13 @@
 package rus.tutby.repository;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
-
 import java.sql.SQLException;
-import java.util.List;
-
-import javax.inject.Inject;
 
 import rus.tutby.App;
-import rus.tutby.database.DatabaseManager;
 import rus.tutby.entity.News;
-import rus.tutby.parser.rssparser.RssParser;
-import rus.tutby.presenter.Feed;
 import rus.tutby.repository.datasource.CloudDataStore;
 import rx.Observable;
-import rx.Single;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -27,8 +15,7 @@ import rx.schedulers.Schedulers;
  */
 public class NewsRepository implements IRepository {
 
-    public NewsRepository() {
-    }
+    public NewsRepository() {}
 
     @Override
     public Observable<News> getAllNews(final String url) {
@@ -44,13 +31,12 @@ public class NewsRepository implements IRepository {
                 try {
                     final News news = App.getNewsDao().queryForId(id);
                     subscriber.onNext(news);
+                    subscriber.onCompleted();
                 } catch (SQLException e) {
                     subscriber.onError(e);
                 }
             }
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
 }

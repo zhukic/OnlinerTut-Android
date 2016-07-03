@@ -7,81 +7,47 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener
 import org.jsoup.nodes.Document
 import rus.tutby.App
 import rus.tutby.entity.News
+import rus.tutby.entity.NewsInfo
 import rus.tutby.ui.NewsView
-import rus.tutby.presenter.ParseHtmlTask
 import rus.tutby.parser.htmlparser.HtmlParser
 import rus.tutby.parser.htmlparser.OnlinerHtmlParser
 import rus.tutby.parser.htmlparser.TutHtmlParser
 import rus.tutby.entity.Provider
+import rus.tutby.interactors.GetNewsUseCase
+import rx.Subscriber
 import java.sql.SQLException
 import javax.inject.Inject
 
 /**
  * Created by RUS on 17.03.2016.
  */
-class NewsPresenterImpl : NewsPresenter, NewsParseListener {
+class NewsPresenterImpl(var newsView: NewsView?, var newsId: Int) : NewsPresenter {
 
-    @Inject
-    lateinit var provider: Provider
+    private var getNewsUseCase: GetNewsUseCase = GetNewsUseCase();
 
-    var newsView: NewsView?
+    override fun parse() {
+        newsView?.showProgressDialog()
+        getNewsUseCase.getNews(NewsSubscriber(), newsId)
 
-    var news: News? = null
-
-    constructor(newsView: NewsView, id: Int) {
-        this.newsView = newsView
-        this.news = getNews(id);
-        App.objectGraph.inject(this)
-    }
-
-    override fun parse(hasInternet: Boolean) {
-
-        App.getImageLoader().loadImage(news?.imageURL, App.getDisplayImageOptions(),
-                object : ImageLoadingListener {
-            override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
-                newsView?.setImage(loadedImage);
-            }
-
-            override fun onLoadingCancelled(imageUri: String?, view: View?) {
-            }
-
-            override fun onLoadingFailed(imageUri: String?, view: View?, failReason: FailReason?) {
-            }
-
-            override fun onLoadingStarted(imageUri: String?, view: View?) {
-            }
-
-        })
-
-        val parseHtmlTask: ParseHtmlTask = ParseHtmlTask(this, getHtmlParser());
-        parseHtmlTask.execute()
     }
 
     override fun onDestroy() {
+        this.getNewsUseCase.unsubscribe()
         this.newsView = null;
     }
 
-    override fun onFinishedParse(document: Document) {
-        newsView?.setHtml(document.html())
-    }
-
-    override fun getTitle(): String = news?.title ?: ""
-
-    override fun getDate(): String = news?.date ?: ""
-
-    fun getNews(id: Int): News? {
-        try {
-            return App.getNewsDao().queryForId(id)
-        } catch (e: SQLException) {
-            e.printStackTrace()
+    inner class NewsSubscriber: Subscriber<NewsInfo>() {
+        override fun onCompleted() {
+            newsView?.hideProgressDialog()
         }
-        return null
-    }
 
-    fun getHtmlParser(): HtmlParser {
-        when(provider) {
-            Provider.TUT -> return TutHtmlParser(news?.link);
-            Provider.ONLINER -> return OnlinerHtmlParser(news?.link)
+        override fun onNext(newsInfo: NewsInfo) {
+            newsView?.setNewsInfo(newsInfo)
+        }
+
+        override fun onError(e: Throwable) {
+            newsView?.onError(e)
+            newsView?.hideProgressDialog()
         }
     }
 

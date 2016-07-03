@@ -1,18 +1,19 @@
 package rus.tutby.ui
 
 import android.graphics.Bitmap
+import rus.tutby.entity.NewsInfo
 
 /**
  * Created by RUS on 17.03.2016.
  */
 interface NewsView {
 
-    fun setImage(bitmap: Bitmap?)
+    fun setNewsInfo(newsInfo: NewsInfo)
 
-    fun showProgress()
+    fun showProgressDialog()
 
-    fun hideProgress()
+    fun hideProgressDialog()
 
-    fun setHtml(html: String);
+    fun onError(e: Throwable?)
 
 }

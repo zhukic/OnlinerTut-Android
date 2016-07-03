@@ -5,9 +5,7 @@ package rus.tutby.presenter;
  */
 public interface FeedPresenter {
 
-    void parse(boolean hasInternet);
-
-    void upload();
+    void parse();
 
     void onDestroy();
 

@@ -1,9 +1,6 @@
 package rus.tutby.repository;
 
-import java.util.List;
-
 import rus.tutby.entity.News;
-import rus.tutby.presenter.Feed;
 import rx.Observable;
 
 /**

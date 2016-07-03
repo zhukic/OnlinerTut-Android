@@ -9,9 +9,8 @@ import android.widget.Toast
 /**
  * Created by RUS on 08.06.2016.
  */
-fun Context.showToast(message: String): Boolean {
+fun Context.showToast(message: String?) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-    return false;
 }
 
 fun Context.hasInternet(): Boolean {

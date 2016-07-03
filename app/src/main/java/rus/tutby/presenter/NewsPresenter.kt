@@ -7,11 +7,7 @@ import rus.tutby.entity.News
  */
 interface NewsPresenter {
 
-    fun parse(hasInternet: Boolean)
-
-    fun getDate(): String
-
-    fun getTitle(): String
+    fun parse()
 
     fun onDestroy()
 }
