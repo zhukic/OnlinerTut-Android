@@ -58,9 +58,7 @@ public class FeedFragment extends Fragment implements FeedView,
     @Override
     public void onActivityCreated(Bundle savedInstance) {
         super.onActivityCreated(savedInstance);
-        //Log.d("TAG", "onActivityCreated");
-        //feedPresenter.parse(Internet.Companion.hasNet(getContext()));
-        feedPresenter.parse(true);
+        feedPresenter.parse();
     }
 
     @Override
@@ -143,7 +141,7 @@ public class FeedFragment extends Fragment implements FeedView,
 
     @Override
     public void onRefresh() {
-        feedPresenter.parse(true);
+        feedPresenter.parse();
     }
 
     @Override

@@ -26,9 +26,9 @@ import rus.tutby.utils.showToast
  */
 class NewsActivity : AppCompatActivity(), NewsView {
 
-    private val TAG: String = "TAG"
-
-    private val TINT: Int = 0x40000000
+    companion object {
+        private val TINT: Int = 0x40000000
+    }
 
     lateinit var newsPresenter: NewsPresenter;
 
@@ -52,13 +52,9 @@ class NewsActivity : AppCompatActivity(), NewsView {
 
     }
 
-    override fun showProgressDialog() {
-        progressDialog.show()
-    }
+    override fun showProgressDialog() = progressDialog.show()
 
-    override fun hideProgressDialog() {
-        progressDialog.dismiss()
-    }
+    override fun hideProgressDialog() = progressDialog.dismiss()
 
     override fun setNewsInfo(newsInfo: NewsInfo) {
         setImage(newsInfo.imageBitmap)
@@ -67,9 +63,7 @@ class NewsActivity : AppCompatActivity(), NewsView {
         setHtml(newsInfo.html)
     }
 
-    override fun onError(e: Throwable?) {
-        showToast(e?.message)
-    }
+    override fun onError(e: Throwable?) = showToast(e?.message)
 
     private fun setImage(bitmap: Bitmap?) {
         val alphaAnimation: AlphaAnimation = AlphaAnimation(0f, 1f);

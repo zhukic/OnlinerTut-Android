@@ -23,14 +23,7 @@ import javax.inject.Inject
  */
 class NewsPresenterImpl(var newsView: NewsView?, var newsId: Int) : NewsPresenter {
 
-    @Inject
-    lateinit var provider: Provider
-
     private var getNewsUseCase: GetNewsUseCase = GetNewsUseCase();
-
-    init {
-        App.objectGraph.inject(this)
-    }
 
     override fun parse() {
         newsView?.showProgressDialog()
@@ -45,12 +38,11 @@ class NewsPresenterImpl(var newsView: NewsView?, var newsId: Int) : NewsPresente
 
     inner class NewsSubscriber: Subscriber<NewsInfo>() {
         override fun onCompleted() {
-            throw UnsupportedOperationException()
+            newsView?.hideProgressDialog()
         }
 
         override fun onNext(newsInfo: NewsInfo) {
             newsView?.setNewsInfo(newsInfo)
-            newsView?.hideProgressDialog()
         }
 
         override fun onError(e: Throwable) {

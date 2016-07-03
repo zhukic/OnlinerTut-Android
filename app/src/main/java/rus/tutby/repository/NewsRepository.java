@@ -31,6 +31,7 @@ public class NewsRepository implements IRepository {
                 try {
                     final News news = App.getNewsDao().queryForId(id);
                     subscriber.onNext(news);
+                    subscriber.onCompleted();
                 } catch (SQLException e) {
                     subscriber.onError(e);
                 }

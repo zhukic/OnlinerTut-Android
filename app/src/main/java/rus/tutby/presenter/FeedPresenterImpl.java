@@ -31,19 +31,11 @@ public class FeedPresenterImpl implements FeedPresenter {
     }
 
     @Override
-    public void parse(boolean hasInternet) {
-
-        //Log.i(TAG, "parse " + category);
+    public void parse() {
 
         if(feedView != null) {
             feedView.showRefresh();
-
-            if(hasInternet) {
-                getNewsListUseCase.downloadNews(url, new NewsListSubscriber());
-            } else {
-                this.onError("No internet connection!");
-                //onParseFinished();
-            }
+            getNewsListUseCase.downloadNews(url, new NewsListSubscriber());
         }
     }
 
