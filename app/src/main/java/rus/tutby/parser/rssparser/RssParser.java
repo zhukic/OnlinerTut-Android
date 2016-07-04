@@ -18,12 +18,12 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
+import rus.tutby.App;
 import rus.tutby.entity.News;
 import rus.tutby.entity.Provider;
+import rus.tutby.utils.Logger;
 
 public class RssParser {
-
-    private static final String TAG = "TAG";
 
     private static final String TAG_TUT_LAST_BUILD_DATE = "lastBuildDate";
     private static final String TAG_ONLINER_LAST_BUILD_DATE = "pubDate";
@@ -46,6 +46,7 @@ public class RssParser {
     private int size;
 
     public RssParser(String url) {
+        App.objectGraph.inject(this);
         this.url = url;
         try {
             //Log.d(Constants.TAG, url);
@@ -57,15 +58,16 @@ public class RssParser {
             if(provider == Provider.ONLINER) {
                 setLastBuildDate(this.jsonObject.getString(TAG_ONLINER_LAST_BUILD_DATE));
             }
+            Logger.Companion.log(lastBuildDate);
             this.size = jsonObject.getJSONArray(TAG_ITEM).length();
         } catch (JSONException e) {
-            Log.d(TAG, "JSONException : " + e.getMessage());
+            Logger.Companion.log("JSONException : " + e.getMessage());
         } catch (IOException e) {
-            Log.d(TAG, "IOException : " + e.getMessage());
+            Logger.Companion.log("IOException : " + e.getMessage());
         } catch (NullPointerException e) {
-            Log.d(TAG, "NullPointerException");
+            Logger.Companion.log("NullPointerException");
         } catch (ParseException e) {
-            Log.d(TAG, "ParseException");
+            Logger.Companion.log("ParseException");
         }
     }
 
@@ -95,7 +97,7 @@ public class RssParser {
         try {
             news = parseJSONItem((JSONObject) jsonObject.getJSONArray(TAG_ITEM).get(index));
         } catch (ParseException | JSONException e) {
-            Log.d(TAG, "ParseException | JSONException : " + e.getMessage());
+            Logger.Companion.log("ParseException | JSONException : " + e.getMessage());
         }
         return news;
     }

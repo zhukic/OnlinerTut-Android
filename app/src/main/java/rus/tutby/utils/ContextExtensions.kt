@@ -15,10 +15,8 @@ fun Context.showToast(message: String?) {
 
 fun Context.hasInternet(): Boolean {
     val connectivityManager: ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager;
-    val activeNetworkInfo = connectivityManager.getActiveNetworkInfo()
+    val activeNetworkInfo = connectivityManager.activeNetworkInfo
     return activeNetworkInfo != null && activeNetworkInfo.isConnected;
 }
 
-fun Context.getSharedPreferences(): SharedPreferences {
-    return getSharedPreferences();
-}
+fun Context.getSharedPreferences(name: String): SharedPreferences = getSharedPreferences(name, Context.MODE_PRIVATE)

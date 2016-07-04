@@ -79,7 +79,7 @@ class NewsActivity : AppCompatActivity(), NewsView {
     }
 
     private fun setDate(date: String) {
-        textDate.text = DateTimeFormatter.getLongFormattedDate(date)
+        textDate.text = date
     }
 
     private fun setHtml(html: String) {

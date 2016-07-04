@@ -1,4 +1,4 @@
-package rus.tutby
+package rus.tutby.ui
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -17,6 +17,8 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import kotlinx.android.synthetic.main.activity_feed.*
+import rus.tutby.App
+import rus.tutby.R
 import rus.tutby.entity.Provider
 import rus.tutby.ui.adapters.provideradapters.OnlinerPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.ProviderPagerAdapter

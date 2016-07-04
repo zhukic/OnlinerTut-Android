@@ -24,6 +24,7 @@ import rus.tutby.R;
 import rus.tutby.presenter.FeedPresenter;
 import rus.tutby.presenter.FeedPresenterImpl;
 import rus.tutby.entity.News;
+import rus.tutby.utils.Logger;
 
 public class FeedFragment extends Fragment implements FeedView,
         NewsAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -105,6 +106,7 @@ public class FeedFragment extends Fragment implements FeedView,
 
     @Override
     public void onError(String message) {
+        Logger.Companion.log(message);
         if(isAdded()) {
             Snackbar snackbar = Snackbar.make(recyclerView, "",
                     Snackbar.LENGTH_LONG)

@@ -1,7 +1,6 @@
 package rus.tutby.di;
 
 import android.content.Context;
-import android.util.Log;
 
 import javax.inject.Singleton;
 
@@ -10,14 +9,14 @@ import dagger.Provides;
 import rus.tutby.App;
 import rus.tutby.entity.Provider;
 import rus.tutby.interactors.GetNewsUseCase;
-import rus.tutby.presenter.NewsPresenterImpl;
-import rus.tutby.MainActivity;
+import rus.tutby.parser.rssparser.RssParser;
+import rus.tutby.ui.MainActivity;
 import rus.tutby.repository.datasource.CloudDataStore;
 
 /**
  * Created by RUS on 05.06.2016.
  */
-@Module(library = true, injects = {GetNewsUseCase.class, CloudDataStore.class, MainActivity.class})
+@Module(library = true, injects = {RssParser.class, GetNewsUseCase.class, CloudDataStore.class, MainActivity.class})
 public class AppModule {
 
     private App app;
