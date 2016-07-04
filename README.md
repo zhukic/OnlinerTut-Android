@@ -1,4 +1,4 @@
 # OnlinerTut-Android
-![Alt text](https://pp.vk.me/c631231/v631231574/210e3/c9zG9MKka94.jpg)
-![Alt text](https://pp.vk.me/c631231/v631231574/210ea/bPUBKCWeB-4.jpg)
-![Alt text](https://pp.vk.me/c631231/v631231574/210f1/wCGOGpjtP80.jpg)
+[[https://github.com/zhukic/repository/OnlinerTut-Android/art/1.jpg|alt=octocat]]
+[[https://github.com/zhukic/repository/OnlinerTut-Android/art/2.jpg|alt=octocat]]
+[[https://github.com/zhukic/repository/OnlinerTut-Android/art/3.jpg|alt=octocat]]
