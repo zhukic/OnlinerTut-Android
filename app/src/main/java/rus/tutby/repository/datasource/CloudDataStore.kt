@@ -35,6 +35,7 @@ class CloudDataStore {
             subscriber.onNext(rssParser.getItem(i))
         }
         subscriber.onCompleted()
+
     })
 
     private fun getBuildDateFromPreferences(urlKey: String) =  context.getSharedPreferences(PREFERENCES_NAME).getString(urlKey, "")
