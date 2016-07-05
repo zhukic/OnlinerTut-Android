@@ -3,7 +3,9 @@ package rus.tutby.ui
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.Typeface
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.SystemClock
 import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
 import android.util.Log

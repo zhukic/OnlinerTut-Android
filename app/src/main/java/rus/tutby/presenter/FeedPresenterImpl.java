@@ -1,5 +1,6 @@
 package rus.tutby.presenter;
 
+import android.os.SystemClock;
 import android.util.Log;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import rus.tutby.entity.News;
 import rus.tutby.interactors.GetNewsListUseCase;
 import rus.tutby.ui.FeedView;
+import rus.tutby.utils.Logger;
 import rx.Subscriber;
 
 /**
@@ -32,7 +34,6 @@ public class FeedPresenterImpl implements FeedPresenter {
 
     @Override
     public void parse() {
-
         if(feedView != null) {
             feedView.showRefresh();
             getNewsListUseCase.downloadNews(url, new NewsListSubscriber());
@@ -53,14 +54,14 @@ public class FeedPresenterImpl implements FeedPresenter {
     }
 
     @Override
-    public void onDestroy() {
-        getNewsListUseCase.unsubscribe();
-        feedView = null;
+    public void onNewsClicked(int position) {
+
     }
 
     @Override
-    public void onNewsClicked(int position) {
-
+    public void onDestroy() {
+        this.feedView = null;
+        getNewsListUseCase.unsubscribe();
     }
 
     private final class NewsListSubscriber extends Subscriber<List<News>> {
@@ -77,9 +78,6 @@ public class FeedPresenterImpl implements FeedPresenter {
 
         @Override
         public void onNext(List<News> newsList) {
-            /*for (News news: newsList) {
-                Log.d(TAG, news.getNumber() + "");
-            }*/
             FeedPresenterImpl.this.showNewsList(newsList);
         }
     }

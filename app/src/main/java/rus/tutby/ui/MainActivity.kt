@@ -2,8 +2,10 @@ package rus.tutby.ui
 
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
+import android.os.SystemClock
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -23,6 +25,7 @@ import rus.tutby.entity.Provider
 import rus.tutby.ui.adapters.provideradapters.OnlinerPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.ProviderPagerAdapter
 import rus.tutby.ui.adapters.provideradapters.TutPagerAdapter
+import rus.tutby.utils.Logger
 import rus.tutby.utils.showToast
 import javax.inject.Inject
 
@@ -42,10 +45,16 @@ class MainActivity : AppCompatActivity() {
 
         App.objectGraph.inject(this)
 
+        Logger.log(App.getCounter().toString())
         initToolbar()
         initTabLayout()
         initViewPager()
         initNavigationDrawer()
+/*        Handler().postDelayed({
+            for (i in 0..500)
+            viewPager.currentItem = i % 10
+            SystemClock.sleep(100)
+        }, 5000)*/
     }
 
     private fun initToolbar() {
@@ -186,6 +195,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return super.onOptionsItemSelected(item)
     }
+
 }
 
 

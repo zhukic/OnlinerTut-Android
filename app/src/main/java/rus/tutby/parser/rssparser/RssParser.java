@@ -58,7 +58,6 @@ public class RssParser {
             if(provider == Provider.ONLINER) {
                 setLastBuildDate(this.jsonObject.getString(TAG_ONLINER_LAST_BUILD_DATE));
             }
-            Logger.Companion.log(lastBuildDate);
             this.size = jsonObject.getJSONArray(TAG_ITEM).length();
         } catch (JSONException e) {
             Logger.Companion.log("JSONException : " + e.getMessage());

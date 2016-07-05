@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import rus.tutby.App;
 import rus.tutby.entity.News;
 import rus.tutby.repository.datasource.CloudDataStore;
+import rus.tutby.repository.datasource.DbDataStore;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -25,18 +26,7 @@ public class NewsRepository implements IRepository {
 
     @Override
     public Observable<News> getNewsById(final int id) {
-        return Observable.create(new Observable.OnSubscribe<News>() {
-            @Override
-            public void call(Subscriber<? super News> subscriber) {
-                try {
-                    final News news = App.getNewsDao().queryForId(id);
-                    subscriber.onNext(news);
-                    subscriber.onCompleted();
-                } catch (SQLException e) {
-                    subscriber.onError(e);
-                }
-            }
-        });
+        return new DbDataStore().getNewsFromDb(id);
     }
 
 }

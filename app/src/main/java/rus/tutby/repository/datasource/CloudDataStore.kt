@@ -1,6 +1,7 @@
 package rus.tutby.repository.datasource;
 
 import android.content.Context;
+import android.os.SystemClock
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import rx.lang.kotlin.subscriber
 /**
  * Created by RUS on 20.06.2016.
  */
-class CloudDataStore : INewsStore {
+class CloudDataStore {
 
     @Inject
     lateinit var context: Context
@@ -28,29 +29,24 @@ class CloudDataStore : INewsStore {
         App.objectGraph.inject(this)
     }
 
-    override fun userEntityList(url: String): Observable<News> = Observable.create(object : Observable.OnSubscribe<News> {
-        override fun call(subscriber: Subscriber<in News>) {
-            val rssParser = RssParser(url)
-            if(!rssParser.lastBuildDate.equals(getBuildDateFromPreferences(url))) {
-                changeBuildDate(url, rssParser.lastBuildDate)
-                for(i in 0..rssParser.size()) {
-                    subscriber.onNext(rssParser.getItem(i))
-                }
-                subscriber.onCompleted()
-            }
+    fun userEntityList(url: String): Observable<News> = Observable.create ({ subscriber ->
+        val rssParser = RssParser(url)
+        for(i in 0..rssParser.size() - 1) {
+            subscriber.onNext(rssParser.getItem(i))
         }
+        subscriber.onCompleted()
     })
 
-    private fun getBuildDateFromPreferences(urlKey: String) =  context.getSharedPreferences(PREFEREFENCES_NAME).getString(urlKey, "132")
+    private fun getBuildDateFromPreferences(urlKey: String) =  context.getSharedPreferences(PREFERENCES_NAME).getString(urlKey, "")
 
     private fun changeBuildDate(urlKey: String, value: String) {
-        context.getSharedPreferences(PREFEREFENCES_NAME).edit {
+        context.getSharedPreferences(PREFERENCES_NAME).edit {
             set(urlKey to value)
         }
     }
 
 
     companion object {
-        val PREFEREFENCES_NAME: String = "FeedBuildDatePreferences"
+        val PREFERENCES_NAME: String = "FeedBuildDatePreferences"
     }
 }

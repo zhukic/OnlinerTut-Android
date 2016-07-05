@@ -2,7 +2,11 @@ package rus.tutby.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,6 +22,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rus.tutby.App;
 import rus.tutby.database.DatabaseManager;
 import rus.tutby.ui.adapters.NewsAdapter;
 import rus.tutby.R;
@@ -37,10 +42,17 @@ public class FeedFragment extends Fragment implements FeedView,
     private FeedPresenter feedPresenter;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.feed_fragment, container, false);
         ButterKnife.bind(this, rootView);
+
+        Logger.Companion.log(App.getCounter() + "");
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -106,7 +118,6 @@ public class FeedFragment extends Fragment implements FeedView,
 
     @Override
     public void onError(String message) {
-        Logger.Companion.log(message);
         if(isAdded()) {
             Snackbar snackbar = Snackbar.make(recyclerView, "",
                     Snackbar.LENGTH_LONG)
@@ -149,7 +160,6 @@ public class FeedFragment extends Fragment implements FeedView,
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //Log.i("TAG", "onDestroy");
         feedPresenter.onDestroy();
     }
 }

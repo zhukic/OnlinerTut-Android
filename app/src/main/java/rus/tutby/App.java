@@ -10,12 +10,15 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.leakcanary.LeakCanary;
 
+import java.util.ArrayList;
+
 import dagger.ObjectGraph;
 import rus.tutby.database.DatabaseHelper;
 import rus.tutby.database.DatabaseManager;
 import rus.tutby.di.AppModule;
 import rus.tutby.entity.News;
 import rus.tutby.entity.Provider;
+import rus.tutby.ui.FeedFragment;
 
 public class App extends Application {
 
@@ -31,7 +34,7 @@ public class App extends Application {
 
     public static ObjectGraph objectGraph;
 
-    public static int counter;
+    private static int counter;
 
     @Override
     public void onCreate() {
