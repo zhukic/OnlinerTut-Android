@@ -71,7 +71,9 @@ public class App extends Application {
 
         DatabaseManager.clearTable();
 
-        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
+        appComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
 
     }
 

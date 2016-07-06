@@ -77,6 +77,7 @@ class NewsActivity : AppCompatActivity(), NewsView {
     }
 
     private fun setTitle(title: String) {
+        supportActionBar?.title = title
         collapsing_toolbar.title = title
     }
 

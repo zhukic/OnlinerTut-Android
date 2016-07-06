@@ -13,7 +13,6 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".ui.NewsActivity"
-            android:label="@string/title_activity_news"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/NewsTheme">
             <meta-data
