@@ -26,7 +26,6 @@ class CloudDataStore {
     lateinit var context: Context
 
     init {
-        App.objectGraph.inject(this)
     }
 
     fun userEntityList(url: String): Observable<News> = Observable.create ({ subscriber ->

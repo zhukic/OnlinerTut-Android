@@ -51,7 +51,6 @@ class GetNewsUseCase {
     init {
         subscription = Subscriptions.empty()
         newsRepository = NewsRepository()
-        App.objectGraph.inject(this)
     }
 
     fun getNews(subscriber: Subscriber<NewsInfo>, newsId: Int) {

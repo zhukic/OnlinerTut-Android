@@ -43,9 +43,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed)
 
-        App.objectGraph.inject(this)
+        App.getAppComponent().inject(this);
 
-        Logger.log(App.getCounter().toString())
         initToolbar()
         initTabLayout()
         initViewPager()

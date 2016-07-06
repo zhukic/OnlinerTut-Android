@@ -12,9 +12,10 @@ import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 
-import dagger.ObjectGraph;
 import rus.tutby.database.DatabaseHelper;
 import rus.tutby.database.DatabaseManager;
+import rus.tutby.di.DaggerAppComponent;
+import rus.tutby.di.AppComponent;
 import rus.tutby.di.AppModule;
 import rus.tutby.entity.News;
 import rus.tutby.entity.Provider;
@@ -32,7 +33,7 @@ public class App extends Application {
 
     private Provider provider;
 
-    public static ObjectGraph objectGraph;
+    private static AppComponent appComponent;
 
     private static int counter;
 
@@ -69,7 +70,10 @@ public class App extends Application {
         provider = Provider.TUT;
 
         DatabaseManager.clearTable();
-        objectGraph = ObjectGraph.create(new AppModule(this));
+
+        appComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
 
     }
 
@@ -111,5 +115,9 @@ public class App extends Application {
 
     public static int getCounter() {
         return counter++;
+    }
+
+    public static AppComponent getAppComponent() {
+        return appComponent;
     }
 }

@@ -16,7 +16,7 @@ import rus.tutby.repository.datasource.CloudDataStore;
 /**
  * Created by RUS on 05.06.2016.
  */
-@Module(library = true, injects = {RssParser.class, GetNewsUseCase.class, CloudDataStore.class, MainActivity.class})
+@Module
 public class AppModule {
 
     private App app;
