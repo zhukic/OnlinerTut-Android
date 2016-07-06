@@ -26,6 +26,7 @@ class CloudDataStore {
     lateinit var context: Context
 
     init {
+        App.getAppComponent().inject(this);
     }
 
     fun userEntityList(url: String): Observable<News> = Observable.create ({ subscriber ->

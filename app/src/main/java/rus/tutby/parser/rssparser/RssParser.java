@@ -46,6 +46,7 @@ public class RssParser {
     private int size;
 
     public RssParser(String url) {
+        App.getAppComponent().inject(this);
         this.url = url;
         try {
             //Log.d(Constants.TAG, url);

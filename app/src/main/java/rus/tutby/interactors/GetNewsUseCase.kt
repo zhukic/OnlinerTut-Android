@@ -49,6 +49,7 @@ class GetNewsUseCase {
     private lateinit var newsRepository: NewsRepository
 
     init {
+        App.getAppComponent().inject(this)
         subscription = Subscriptions.empty()
         newsRepository = NewsRepository()
     }

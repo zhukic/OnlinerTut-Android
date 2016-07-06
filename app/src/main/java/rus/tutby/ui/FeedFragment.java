@@ -52,8 +52,6 @@ public class FeedFragment extends Fragment implements FeedView,
         View rootView = inflater.inflate(R.layout.feed_fragment, container, false);
         ButterKnife.bind(this, rootView);
 
-        Logger.Companion.log(App.getCounter() + "");
-
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
 
