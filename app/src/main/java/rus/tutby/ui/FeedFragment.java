@@ -1,6 +1,7 @@
 package rus.tutby.ui;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,8 +11,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +58,7 @@ public class FeedFragment extends Fragment implements FeedView,
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(getLayoutManager());
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         final String url = getArguments().getString("URL");
@@ -64,6 +67,12 @@ public class FeedFragment extends Fragment implements FeedView,
         feedPresenter = new FeedPresenterImpl(this, url, category);
 
         return rootView;
+    }
+
+    private RecyclerView.LayoutManager getLayoutManager() {
+        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            return new LinearLayoutManager(getActivity());
+        } else return new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
     }
 
     @Override
