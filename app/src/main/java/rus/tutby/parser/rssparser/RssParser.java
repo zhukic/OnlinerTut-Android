@@ -45,29 +45,19 @@ public class RssParser {
     private JSONObject jsonObject;
     private int size;
 
-    public RssParser(String url) {
+    public RssParser(String url) throws IOException, JSONException, ParseException {
         App.getAppComponent().inject(this);
         this.url = url;
-        try {
-            //Log.d(Constants.TAG, url);
-            this.jsonObject = XML.toJSONObject(readFromUrl(url))
-                    .getJSONObject(TAG_RSS).getJSONObject(TAG_CHANNEL);
-            if(provider == Provider.TUT) {
-                setLastBuildDate(this.jsonObject.getString(TAG_TUT_LAST_BUILD_DATE));
-            }
-            if(provider == Provider.ONLINER) {
-                setLastBuildDate(this.jsonObject.getString(TAG_ONLINER_LAST_BUILD_DATE));
-            }
-            this.size = jsonObject.getJSONArray(TAG_ITEM).length();
-        } catch (JSONException e) {
-            Logger.Companion.log("JSONException : " + e.getMessage());
-        } catch (IOException e) {
-            Logger.Companion.log("IOException : " + e.getMessage());
-        } catch (NullPointerException e) {
-            Logger.Companion.log("NullPointerException");
-        } catch (ParseException e) {
-            Logger.Companion.log("ParseException");
+        //Log.d(Constants.TAG, url);
+        this.jsonObject = XML.toJSONObject(readFromUrl(url))
+                .getJSONObject(TAG_RSS).getJSONObject(TAG_CHANNEL);
+        if(provider == Provider.TUT) {
+            setLastBuildDate(this.jsonObject.getString(TAG_TUT_LAST_BUILD_DATE));
         }
+        else if(provider == Provider.ONLINER) {
+            setLastBuildDate(this.jsonObject.getString(TAG_ONLINER_LAST_BUILD_DATE));
+        }
+        this.size = jsonObject.getJSONArray(TAG_ITEM).length();
     }
 
     private String readFromUrl(String url) throws IOException {
@@ -91,13 +81,8 @@ public class RssParser {
         return response.toString();
     }
 
-    public News getItem(int index) {
-        News news = null;
-        try {
-            news = parseJSONItem((JSONObject) jsonObject.getJSONArray(TAG_ITEM).get(index));
-        } catch (ParseException | JSONException e) {
-            Logger.Companion.log("ParseException | JSONException : " + e.getMessage());
-        }
+    public News getItem(int index) throws JSONException, ParseException {
+        News news = parseJSONItem((JSONObject) jsonObject.getJSONArray(TAG_ITEM).get(index));
         return news;
     }
 

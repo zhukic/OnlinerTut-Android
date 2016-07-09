@@ -34,7 +34,6 @@ public abstract class HtmlParser {
         } catch(NullPointerException e) {
             return false;
         }
-
         return true;
     }
 }

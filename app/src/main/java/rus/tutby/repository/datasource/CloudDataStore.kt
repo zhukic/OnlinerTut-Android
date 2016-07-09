@@ -9,11 +9,13 @@ import javax.inject.Inject;
 
 import rus.tutby.App;
 import rus.tutby.entity.News;
+import rus.tutby.exceptions.NoInternetException
 import rus.tutby.parser.rssparser.RssParser;
 import rus.tutby.utils.edit
 import rx.Observable;
 import rx.Subscriber;
 import rus.tutby.utils.getSharedPreferences
+import rus.tutby.utils.hasInternet
 import rus.tutby.utils.set
 import rx.lang.kotlin.subscriber
 
@@ -30,10 +32,12 @@ class CloudDataStore {
     }
 
     fun userEntityList(url: String): Observable<News> = Observable.create ({ subscriber ->
-        val rssParser = RssParser(url)
-        for(i in 0..rssParser.size() - 1) {
-            subscriber.onNext(rssParser.getItem(i))
-        }
+        if(context.hasInternet()) {
+            val rssParser = RssParser(url)
+            for(i in 0..rssParser.size() - 1) {
+                subscriber.onNext(rssParser.getItem(i))
+            }
+        } else throw NoInternetException()
         subscriber.onCompleted()
 
     })
