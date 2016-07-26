@@ -39,7 +39,6 @@ public class FeedFragment extends Fragment implements FeedView,
 
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
-    @Bind(R.id.lowProgressBar) ProgressBar lowProgressBar;
 
     private NewsAdapter newsAdapter;
     private FeedPresenter feedPresenter;
@@ -99,16 +98,6 @@ public class FeedFragment extends Fragment implements FeedView,
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-    }
-
-    @Override
-    public void showLowProgress() {
-        lowProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLowProgress() {
-        lowProgressBar.setVisibility(View.GONE);
     }
 
     @Override

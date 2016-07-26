@@ -13,10 +13,6 @@ public interface FeedView {
 
     void hideRefresh();
 
-    void showLowProgress();
-
-    void hideLowProgress();
-
     void setFeed(List<News> feed);
 
     void notifyAdapter();

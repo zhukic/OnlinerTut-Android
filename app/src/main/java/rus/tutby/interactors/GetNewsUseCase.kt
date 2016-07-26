@@ -56,22 +56,16 @@ class GetNewsUseCase {
 
     fun getNews(subscriber: Subscriber<NewsInfo>, newsId: Int) {
         this.subscription = newsRepository.getNewsById(newsId)
-                .subscribe(NewsSubscriber(subscriber))
+                .flatMap { news -> Observable.zip(
+                        Observable.create(BitmapObservable(news.imageURL)),
+                        Observable.create(HtmlObservable(news.link)),
+                        {b: Bitmap, s: String -> NewsEntityMapper.transform(news, b, s) } ) }
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber)
     }
 
     fun unsubscribe() = this.subscription.unsubscribe()
-
-    private inner class NewsSubscriber(val subscriber: Subscriber<NewsInfo>) : Action1<News> {
-        override fun call(news: News) {
-            Observable.zip(Observable.create(BitmapObservable(news.imageURL)),
-                    Observable.create(HtmlObservable(news.link)),
-                    {b: Bitmap, s: String -> NewsEntityMapper.transform(news, b, s) } )
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(subscriber)
-        }
-
-    }
 
     private inner class BitmapObservable(val imageUrl: String) : Observable.OnSubscribe<Bitmap> {
         override fun call(subscriber: Subscriber<in Bitmap>) {
